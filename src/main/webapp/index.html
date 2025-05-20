@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div>TODO write content</div>
+        <form onsubmit="return false;">
+            <h2>INICIO DE SESIÓN 🌍</h2>
+            <label>Ingrese usuario: </label><br/>
+            <input type="text" id="user"><br>
+            <label>Ingrese contraseña: </label><br/>
+            <input type="password" id="pass"><br/>
+            <button id="btnIniciar">Iniciar</button>
+        </form>
+
+        <script>
+            let btnIniciar = document.getElementById("btnIniciar");
+            btnIniciar.addEventListener("click", function () {
+                let user = document.getElementById("user").value;
+                let pass = document.getElementById("pass").value;
+
+                let url = `logueousuario?user=${encodeURIComponent(user)}&pass=${encodeURIComponent(pass)}`;
+
+                fetch(url)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.resultado === "ok") {
+                                console.log(data.token);
+                                // Ejemplo:
+                                setCookie("token", data.token, 7);
+                                //alert("Inicio de sesión exitoso, todo esta bien");
+                                // Aquí podrías redirigir, por ejemplo:
+                                window.location.href = "listaproductos.html";
+                            } else {
+                                alert("Usuario o contraseña incorrectos");
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error al procesar la solicitud:", error);
+                        });
+            });
+
+            // Crear una cookie llamada "usuario" con valor "Juan" que expira en 7 días
+            function setCookie(nombre, valor, dias) {
+                const fecha = new Date();
+                fecha.setTime(fecha.getTime() + (dias * 24 * 60 * 60 * 1000));
+                const expira = "expires=" + fecha.toUTCString();
+                document.cookie = nombre + "=" + valor + ";" + expira + ";path=/";
+            }
+        </script>
+    </body>
+</html>

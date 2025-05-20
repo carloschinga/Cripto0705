@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Productos</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #eee;
+        }
+    </style>
+</head>
+<body>
+    <h1>Listado de Productos</h1>
+    <table id="tablaProductos">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Stock</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        let token = getCookie("token");
+        console.log(token);
+        document.addEventListener("DOMContentLoaded", () => {
+            fetch("productos?token=" + encodeURIComponent(token))
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Error al obtener los productos");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const tbody = document.querySelector("#tablaProductos tbody");
+                    tbody.innerHTML = "";
+                    data.forEach(producto => {
+                        const fila = document.createElement("tr");
+                        fila.innerHTML = `
+                            <td>${producto.codiProd}</td>
+                            <td>${producto.nombProd}</td>
+                            <td>${producto.precProd}</td>
+                            <td>${producto.stockProd}</td>
+                        `;
+                        tbody.appendChild(fila);
+                    });
+                })
+                .catch(error => {
+                    console.error("Error al cargar productos:", error);
+                });
+        });
+
+        function getCookie(nombre) {
+            const nombreEQ = nombre + "=";
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                let c = cookies[i].trim();
+                if (c.indexOf(nombreEQ) === 0) {
+                    return c.substring(nombreEQ.length, c.length);
+                }
+            }
+            return null;
+        }
+    </script>
+</body>
+</html>
