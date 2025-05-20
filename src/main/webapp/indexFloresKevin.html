@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Iniciar Sesión Kevin</title>
+
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <!-- Google Identity Services -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url("img/alianza_lima.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 360px;
+            text-align: center;
+        }
+
+        .login-container h2 {
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px 10px 10px 35px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .input-group .icon-left {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+            font-size: 16px;
+        }
+
+        .input-group .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+            cursor: pointer;
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-login {
+            background-color: #74d042;
+        }
+
+        /* Google Sign-In button container */
+        #googleSignInDiv {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .cuentita {
+            font-size: 1rem;
+            font-style: italic;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .p_cabeza {
+            font-size: 1rem;
+            font-style: italic;
+            font-weight: bold;
+        }
+
+        .logo-icon {
+            width: 60px;
+            height: auto;
+            vertical-align: middle;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <h2>
+            <img src="img/AL_Logo.png" alt="Logo" class="logo-icon" />
+            ¡BIENVENIDOS!
+            <img src="img/AL_Logo.png" alt="Logo" class="logo-icon" />
+        </h2>
+
+        <p class="p_cabeza">Por favor ingrese sus credenciales</p>
+
+        <form id="loginForm">
+            <div class="input-group">
+                <i class="fas fa-user icon-left"></i>
+                <input type="text" id="user" placeholder="Usuario o correo" required />
+            </div>
+
+            <div class="input-group">
+                <i class="fas fa-lock icon-left"></i>
+                <input type="password" id="pass" placeholder="Contraseña" required />
+                <i class="fas fa-eye toggle-password" id="verContra"></i>
+            </div>
+
+            <button id="btnIniciar" class="btn-login" type="submit">
+                <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+            </button>
+        </form>
+
+        <p class="cuentita">O ingresa con Google 🌐</p>
+
+        <div id="googleSignInDiv"></div>
+
+        <p class="cuentita">Aún no tienes una cuenta, ¿Qué esperas?</p>
+        <div class="divider"><span>Crear cuenta</span></div>
+    </div>
+
+    <script>
+        // Mostrar/Ocultar contraseña
+        const password = document.getElementById("pass");
+        const toggle = document.getElementById("verContra");
+
+        toggle.addEventListener("click", function () {
+            const type = password.getAttribute("type") === "password" ? "text" : "password";
+            password.setAttribute("type", type);
+            this.classList.toggle("fa-eye");
+            this.classList.toggle("fa-eye-slash");
+        });
+
+        // Login con usuario y contraseña
+        const loginForm = document.getElementById("loginForm");
+        loginForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const user = document.getElementById("user").value;
+            const pass = document.getElementById("pass").value;
+
+            const url = `logueousuario?user=${encodeURIComponent(user)}&pass=${encodeURIComponent(pass)}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.resultado === "ok") {
+                        setCookie("token", data.token, 7);
+                        window.location.href = "clientes.html";
+                    } else {
+                        alert("Usuario o contraseña incorrectos");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error al procesar la solicitud:", error);
+                });
+        });
+
+        // Crear cookies
+        function setCookie(nombre, valor, dias) {
+            const fecha = new Date();
+            fecha.setTime(fecha.getTime() + (dias * 24 * 60 * 60 * 1000));
+            const expira = "expires=" + fecha.toUTCString();
+            document.cookie = nombre + "=" + valor + ";" + expira + ";path=/";
+        }
+
+        // Función para manejar login con Google
+        function handleCredentialResponse(response) {
+            const credential = response.credential;
+            console.log("Token recibido de Google:", credential);
+
+            fetch('validarGoogle', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'credential=' + encodeURIComponent(credential)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.resultado === "ok") {
+                        setCookie("token", data.token, 7);
+                        window.location.href = "clientes.html";
+                    } else {
+                        alert("❌ Error en la autenticación con Google.");
+                    }
+                })
+                .catch(error => {
+                    console.error("❌ Error al autenticar con el servidor:", error);
+                });
+        }
+
+        // Renderizar el botón oficial de Google Sign-In
+        window.onload = function () {
+            google.accounts.id.initialize({
+                client_id: "681570587240-c5s2m412gc5bclv52jimlcv8se6t7u0l.apps.googleusercontent.com",
+                callback: handleCredentialResponse,
+                auto_select: false,
+                cancel_on_tap_outside: false
+            });
+
+            google.accounts.id.renderButton(
+                document.getElementById("googleSignInDiv"),
+                {
+                    theme: "outline",
+                    size: "large",
+                    text: "sign_in_with",
+                    shape: "rectangular",
+                    logo_alignment: "left"
+                }
+            );
+
+            // Puedes descomentar esta línea si quieres que se auto muestre el prompt de login
+            // google.accounts.id.prompt();
+        };
+    </script>
+</body>
+
+</html>
