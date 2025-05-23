@@ -1,69 +1,69 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Lista de Clientes</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
+    <head>
+        <meta charset="UTF-8">
+        <title>Lista de Clientes</title>
+        <style>
+            table {
+                border-collapse: collapse;
+                width: 100%;
+            }
 
-        th, td {
-            border: 1px solid #ccc;
-            padding: 8px;
-        }
+            th, td {
+                border: 1px solid #ccc;
+                padding: 8px;
+            }
 
-        th {
-            background-color: #eee;
-        }
-    </style>
-</head>
-<body>
-    <h1>Listado de Clientes</h1>
-    <table id="tablaClientes">
-        <thead>
-            <tr>
-                <th>Código</th>
-                <th>Apellido Paterno</th>
-                <th>Apellido Materno</th>
-                <th>Nombre</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+            th {
+                background-color: #eee;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Listado de Clientes</h1>
+        <table id="tablaClientes">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Apellido Paterno</th>
+                    <th>Apellido Materno</th>
+                    <th>Nombre</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
 
-    <script>
-        let token= getCookie("token");
-        console.log(token);
-        document.addEventListener("DOMContentLoaded", () => {
-            fetch("clientes?token=" + encodeURIComponent(token))
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error("Error al obtener los clientes");
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    const tbody = document.querySelector("#tablaClientes tbody");
-                    tbody.innerHTML = "";
-                    data.forEach(cliente => {
-                        const fila = document.createElement("tr");
-                        fila.innerHTML = `
-                            <td>${cliente.codiClie}</td>
-                            <td>${cliente.appaClie}</td>
-                            <td>${cliente.apmaClie}</td>
-                            <td>${cliente.nombClie}</td>
-                        `;
-                        tbody.appendChild(fila);
-                    });
-                })
-                .catch(error => {
-                    console.error("Error al cargar clientes:", error);
-                });
-        });
-        
-        function getCookie(nombre) {
+        <script>
+            let token = getCookie("token");
+            console.log(token);
+            document.addEventListener("DOMContentLoaded", () => {
+                fetch("clientes?token=" + encodeURIComponent(token))
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error("Error al obtener los clientes");
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            const tbody = document.querySelector("#tablaClientes tbody");
+                            tbody.innerHTML = "";
+                            data.forEach(cliente => {
+                                const fila = document.createElement("tr");
+                                fila.innerHTML = `
+                                <td>${cliente.codiClie}</td>
+                                <td>${cliente.appaClie}</td>
+                                <td>${cliente.apmaClie}</td>
+                                <td>${cliente.nombClie}</td>
+                            `;
+                                tbody.appendChild(fila);
+                            });
+                        })
+                        .catch(error => {
+                            console.error("Error al cargar clientes:", error);
+                        });
+            });
+
+            function getCookie(nombre) {
                 const nombreEQ = nombre + "=";
                 const cookies = document.cookie.split(';');
                 for (let i = 0; i < cookies.length; i++) {
@@ -74,6 +74,6 @@
                 }
                 return null;
             }
-    </script>
-</body>
+        </script>
+    </body>
 </html>

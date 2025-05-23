@@ -1,4 +1,3 @@
-
 package servlet;
 
 import dao.UsuarioJpaController;
@@ -27,21 +26,19 @@ public class LogueoUsuario extends HttpServlet {
             String user = request.getParameter("user");
             String pass = request.getParameter("pass");
 
-            
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_Cripto006_war_1.0-SNAPSHOTPU");
             UsuarioJpaController usuDAO = new UsuarioJpaController(emf);
 
-            
             boolean b = usuDAO.validar(user, pass);
 
             if (b) {
-                
+
                 HttpSession sesion = request.getSession();
                 sesion.setAttribute("usuario", user);
-                String token=util.JwtUtil.generarToken(user);
+                String token = util.JwtUtil.generarToken(user);
 
                 // Respuesta en formato JSON
-                out.println("{\"resultado\":\"ok\",\"token\":\""+token+"\"}");
+                out.println("{\"resultado\":\"ok\",\"token\":\"" + token + "\"}");
             } else {
                 out.println("{\"resultado\":\"error\"}");
             }
