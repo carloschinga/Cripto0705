@@ -139,16 +139,15 @@ public class UsuarioJpaController implements Serializable {
             em.close();
         }
     }
-    
-    
-    public boolean validar(String u, String p) {
+
+    public boolean validar(String usu, String pass) {
         EntityManager em = getEntityManager();
         try {
             Query q = em.createNamedQuery("Usuario.validar");
-            q.setParameter("logiUsua", u);
-            q.setParameter("passUsua", p);
+            q.setParameter("logiUsua", usu);
+            q.setParameter("passUsua", pass);
             List<Usuario> lista = q.getResultList();
-            if (lista.size()!=0) {
+            if (lista.size() != 0) {
                 return true;
             }
             return false;
@@ -156,5 +155,20 @@ public class UsuarioJpaController implements Serializable {
             em.close();
         }
     }
-    
+
+    //Método validar Kevin
+    public Usuario validarUsuario(String usu, String pas) {
+        EntityManager em = getEntityManager();
+        try {
+            Query q = em.createNamedQuery("Usuario.validar");
+            q.setParameter("logiUsua", usu);
+            q.setParameter("passUsua", pas);
+            Usuario usuario = (Usuario) q.getSingleResult();
+            return usuario;
+        } catch (Exception e) {
+            return null;
+        } finally {
+            em.close();
+        }
+    }
 }

@@ -122,17 +122,17 @@
                 align-items: center;
                 gap: 15px;
             }
-            
+
             /* Google Sign-In button container */
             #googleSignInDiv {
                 display: inline-block;
             }
-            
+
             /* Facebook Sign-In button container */
             #facebookSignInDiv{
                 display: inline-block;
             }
-            
+
             .fb-login-button{
                 width: 40px;
                 height: 40px;
@@ -145,11 +145,11 @@
                 box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
                 transition: background-color 0.3s;
             }
-            
+
             .fb-login-button:hover {
                 background-color: #166FE5;
             }
-            
+
             .fb-login-button i {
                 color: white;
                 font-size: 22px;
@@ -234,7 +234,7 @@
                 <div class="fb-login-button" onclick="customFacebookLogin()">
                     <i class="fab fa-facebook-f"></i>
                 </div>
-                
+
 
             </div>
 
@@ -265,14 +265,15 @@
                 const user = document.getElementById("user").value;
                 const pass = document.getElementById("pass").value;
 
-                const url = `logueousuario?user=${encodeURIComponent(user)}&pass=${encodeURIComponent(pass)}`;
+                const url = `validarUsuarioKevin?user=${encodeURIComponent(user)}&pass=${encodeURIComponent(pass)}`;
 
                 fetch(url)
                         .then(response => response.json())
                         .then(data => {
                             if (data.resultado === "ok") {
-                                setCookie("token", data.token, 7);
-                                window.location.href = "clientes.html";
+                                setCookie("token", data.token, 7); //Guardamos el token
+                                setCookie("nombreUsuario", data.nombre, 7); //Guarda el nombre
+                                window.location.href = "clientesKevin.html";
                             } else {
                                 alert("Usuario o contraseña incorrectos");
                             }
@@ -287,7 +288,7 @@
                 const fecha = new Date();
                 fecha.setTime(fecha.getTime() + (dias * 24 * 60 * 60 * 1000));
                 const expira = "expires=" + fecha.toUTCString();
-                document.cookie = nombre + "=" + valor + ";" + expira + ";path=/";
+                document.cookie = nombre + "=" + encodeURIComponent(valor) + ";" + expira + ";path=/";
             }
 
             // Función para manejar login con Google
@@ -305,8 +306,9 @@
                         .then(res => res.json())
                         .then(data => {
                             if (data.resultado === "ok") {
-                                setCookie("token", data.token, 7);
-                                window.location.href = "clientes.html";
+                                setCookie("token", data.token, 7); //Guarda el token
+                                setCookie("nombreUsuario", data.nombre, 7); //Guarda el token
+                                window.location.href = "clientesKevin.html";
                             } else {
                                 alert("❌ Error en la autenticación con Google.");
                             }
@@ -356,8 +358,9 @@
                                     .then(data => {
                                         console.log('Respuesta backend:', data);
                                         if (data.resultado === 'ok') {
-                                            setCookie("token", data.token, 7);
-                                            window.location.href = "clientes.html";
+                                            setCookie("token", data.token, 7); //Guarda el token
+                                            setCookie("nombreUsuario", data.nombre, 7); //Guarda el token
+                                            window.location.href = "clientesKevin.html";
                                         } else {
                                             alert('Error en login con Facebook');
                                         }

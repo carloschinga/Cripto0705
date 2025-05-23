@@ -1,4 +1,4 @@
-package servlet;
+package servlet_kevin;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -21,7 +21,7 @@ import util.JwtUtil;
 public class validarFacebookKevin extends HttpServlet {
 
     @Override
-  protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         response.setContentType("application/json;charset=UTF-8");
@@ -63,6 +63,7 @@ public class validarFacebookKevin extends HttpServlet {
             JsonObject respuesta = new JsonObject();
             respuesta.addProperty("resultado", "ok");
             respuesta.addProperty("token", token);
+            respuesta.addProperty("nombre", nombre);
             out.println(respuesta.toString());
 
         } catch (Exception e) {
