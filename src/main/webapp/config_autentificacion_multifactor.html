@@ -9,16 +9,31 @@
     <link href="estilos_kevin/config_autenti_multi.css" rel="stylesheet" type="text/css" />
 
 <body>
+    <!--Barra superior de perfil-->
+    <div id="topbar">
+        <div id="perfilContenedor" tabindex="0" aria-haspopup="true" aria-expanded="false" role="button"
+            aria-label="Menú de usuario">
+            <img src="https://cdn-icons-png.flaticon.com/512/64/64572.png" alt="Icono de perfil" />
+            Hola, <span id="nombreUsuario">Usuario</span>
+        </div>
+
+        <div id="perfilMenu" role="menu" aria-label="Opciones de usuario">
+            <ul>
+                <li class="menuItem" role="menuItem" tabindex="0">Cambiar Contraseña</li>
+                <li class="menuItem" role="menuItem" tabindex="0" id="btnSalir">Salir</li>
+            </ul>
+        </div>
+    </div>
+    <br>
+
     <div class="container">
         <div class="left">
             <h1>Credenciales de seguridad</h1>
             <h3>Seguridad multifactor (MFA)</h3>
             <p>
                 Esta opción ha sido habilitada para aumentar la seguridad de nuestra
-                página. Para poder activarla y utilizarla necesitarás descargar una 
-                aplicación de autenticación en tu teléfono móvil. Una vez activada, 
-                se te pedirá ingresar un código, adicional a tu contraseña, que 
-                podrás ver en tu teléfono móvil para iniciar sesión.
+                página. Para poder activarla y utilizarla necesitarás seguir los
+                siguientes pasos poder iniciar sesión.
             </p>
 
             <strong>1. Instalar aplicación en tu teléfono móvil</strong>
@@ -29,15 +44,18 @@
             <strong>2. Escanea el código con tu teléfono</strong>
             <p>Abre la aplicación que has instalado, ingresa a la opción "Escanear un código QR" y escanea este código:
             </p>
+
             <div class="qr-container">
-                <img src="img_kevin/Imagen_QR.png" alt="Código QR para Google Authenticator" />
+                <!--<img src="img_kevin/Imagen_QR.png" />-->
+                <a href="">Mostrar código QR</a>
             </div>
         </div>
 
         <div class="right">
             <strong>3. Ingresa los códigos que aparecen en la aplicación</strong>
             <p>
-                Luego de escanear el QR, aparecerá en la pantalla de la app y tu cuenta de correo seguida de un código de 6
+                Luego de escanear el QR, aparecerá en la pantalla de la app y tu cuenta de correo seguida de un código
+                de 6
                 dígitos. Ingresa los códigos para verificar la configuración.
             </p>
 
@@ -52,35 +70,126 @@
 
             <div class="buttons">
                 <button id="btnContinuar" disabled>Continuar</button>
-                <a href="indexAutenticarKevin.html" class="button-link">Regresar</a>
+                <a href="#" id="btnRegresarIndex" class="button-link">Regresar</a>
             </div>
-
-            <script>
-                // Habilitar botón cuando ambos códigos estén completos y válidos
-                const codigo1Input = document.getElementById('codigo1');
-                const codigo2Input = document.getElementById('codigo2');
-                const btnContinuar = document.getElementById('btnContinuar');
-
-                function validarInputs() {
-                    const cod1Valido = /^\d{6}$/.test(codigo1Input.value);
-                    const cod2Valido = /^\d{6}$/.test(codigo2Input.value);
-
-                    btnContinuar.disabled = !(cod1Valido && cod2Valido);
-                }
-
-                codigo1Input.addEventListener('input', validarInputs);
-                codigo2Input.addEventListener('input', validarInputs);
-
-                // Aquí podrías agregar el evento para cuando se haga click en continuar
-                btnContinuar.addEventListener('click', () => {
-                    alert(`Verificando códigos:\nCódigo 1: ${codigo1Input.value}\nCódigo 2: ${codigo2Input.value}`);
-
-                    window.location.href = "segundo_paso_autenticacion.html";
-                    // Aquí tu lógica para validar códigos en backend
-                });
-            </script>
         </div>
     </div>
+
+    <script>
+        //Función para obtner cookis
+        function getCookie(nombre) {
+            const nombreEQ = nombre + "=";
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                let c = cookies[i].trim();
+                if (c.indexOf(nombreEQ) === 0) {
+                    return c.substring(nombreEQ.length, c.length);
+                }
+            }
+            return null;
+        }
+
+        function setCookie(nombre, valor, dias) {
+            const fecha = new Date();
+            fecha.setTime(fecha.getTime() + (dias * 24 * 60 * 60 * 1000));
+            const expira = "expires=" + fecha.toUTCString();
+            document.cookie = nombre + "=" + encodeURIComponent(valor) + ";" + expira + ";path=/";
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            //Mostrar nombre de usuario en la barra superior
+            let nombre = getCookie("nombreUsuario");
+            const nombreUsuarioSpan = document.getElementById("nombreUsuario");
+            nombreUsuarioSpan.style.marginLeft = "2px";
+            nombreUsuarioSpan.style.fontWeight = "bold";
+            nombreUsuarioSpan.style.textTransform = "uppercase";
+
+            if (nombre) {
+                nombreUsuarioSpan.textContent = decodeURIComponent(nombre);
+            } else {
+                nombreUsuarioSpan.textContent = "Usuario fail";
+            }
+
+            //Manejar menú desplegable
+            const perfContenedor = document.getElementById("perfilContenedor");
+            const perfMenu = document.getElementById("perfilMenu");
+
+            perfContenedor.addEventListener("click", () => {
+                if (perfMenu.style.display === "block") {
+                    perfMenu.style.display = "none";
+                    perfContenedor.setAttribute("aria-expanded", "false");
+                } else {
+                    perfMenu.style.display = "block";
+                    perfContenedor.setAttribute("aria-expanded", "true");
+                }
+            });
+
+            //Cerrar menú si se hace click fuera del usuario
+            document.addEventListener("click", (e) => {
+                if (!perfContenedor.contains(e.target) && !perfMenu.contains(e.target)) {
+                    perfMenu.style.display = "none";
+                    perfContenedor.setAttribute("aria-expanded", "false");
+                }
+            });
+
+            // Función de cerra sesión
+            function cerrarSesionYVolver() {
+                setCookie("token", "", -1);
+                setCookie("nombreUsuario", "", -1);
+                window.location.href = "indexAutenticarKevin.html";
+            }
+
+            // Utiliza función y cierras segun elección
+            document.getElementById("btnSalir").addEventListener("click", cerrarSesionYVolver);
+            document.getElementById("btnRegresarIndex").addEventListener("click", (e) => {
+                e.preventDefault();
+                cerrarSesionYVolver();
+            });
+
+            const menuItems = perfMenu.querySelectorAll(".menuItem");
+            menuItems.forEach(item => {
+                if (item.id !== "btnSalir") {
+                    item.addEventListener("click", () => {
+                        alert(`Has seleccionado: ${item.textContent}`);
+                        perfMenu.style.display = "none";
+                    });
+                }
+            });
+
+            // No ejecutar nada si no se ha logueado
+            let token = getCookie("token");
+            if (!token) {
+                alert("No estás autenticado, ¡Inicia Sesión!");
+                window.location.href = "indexAutenticarKevin.html";
+                return;
+            }
+
+        });
+
+
+        // Habilitar botón cuando ambos códigos estén completos y válidos
+        const codigo1Input = document.getElementById('codigo1');
+        const codigo2Input = document.getElementById('codigo2');
+        const btnContinuar = document.getElementById('btnContinuar');
+
+        function validarInputs() {
+            const cod1Valido = /^\d{6}$/.test(codigo1Input.value);
+            const cod2Valido = /^\d{6}$/.test(codigo2Input.value);
+
+            btnContinuar.disabled = !(cod1Valido && cod2Valido);
+        }
+
+        codigo1Input.addEventListener('input', validarInputs);
+        codigo2Input.addEventListener('input', validarInputs);
+
+        // Aquí podrías agregar el evento para cuando se haga click en continuar
+        btnContinuar.addEventListener('click', () => {
+            alert(`Verificando códigos:\nCódigo 1: ${codigo1Input.value}\nCódigo 2: ${codigo2Input.value}`);
+
+            window.location.href = "segundo_paso_autenticacion.html";
+            // Aquí tu lógica para validar códigos en backend
+        });
+    </script>
 </body>
 
 </html>

@@ -16,7 +16,7 @@ body, html {
 
 .container {
     display: flex;
-    height: 100vh;
+    max-height: 700px;
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
@@ -43,13 +43,11 @@ h1 {
 }
 
 h3 {
-    margin-top: 0;
     color: #007bff;
-    font-weight: 600;
 }
 
 p {
-    line-height: 1.5;
+    line-height: 1.3;
     margin-top: 10px;
 }
 
@@ -62,17 +60,24 @@ strong {
 }
 
 .qr-container {
+    display: flex;
+    width: 150px;
+    height: 150px;
     margin-top: 15px;
     text-align: center;
+    background-color: #cae4ff;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
 }
 
-.qr-container img {
+/*.qr-container img {
     max-width: 130px;
     width: 100%;
     height: auto;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
-}
+}*/
 
 .input-group {
     margin-top: 10px;
@@ -99,54 +104,107 @@ input[type="text"]:focus {
     outline: none;
 }
 
-.buttons {
-    margin-top: auto;
-    display: flex;
-    gap: 15px;
-}
-
-button,
-a.button-link {
-    padding: 12px 25px;
-    border-radius: 6px;
-    font-weight: 600;
-    font-size: 1rem;
-    cursor: pointer;
+#btnContinuar {
+    width: 100%;
+    max-width: 300px;
+    padding: 0.8rem 0;
+    background-color: #1a73e8;
     border: none;
-    text-decoration: none;
+    border-radius: 4px;
+    color: white;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-top: 1.5rem;
+    transition: background-color 0.3s ease;
+}
+
+#btnContinuar:disabled {
+    background-color: #bec5cc;
+    cursor: default;
+}
+
+.button-link {
+    display: block;
+    margin-top: 1rem;
+    padding: 0.8rem 0;
+    width: 100%;
+    max-width: 300px;
+    background-color: #f1f3f4;
+    color: #5f6368;
     text-align: center;
+    text-decoration: underline;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.buttons{
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#topbar {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 999;
+}
+
+#perfilContenedor {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
     user-select: none;
-    transition: background-color 0.3s;
-    flex: 1;
+    background: #f0f0f0;
+    padding: 5px 10px;
+    border-radius: 20px;
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.8);
 }
 
-button {
-    background-color: #007bff;
-    color: white;
-    border: 1px solid #007bff;
+#perfilContenedor img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 8px;
 }
 
-button:disabled {
-    background-color: #a3c0f7;
-    border-color: #a3c0f7;
-    cursor: not-allowed;
+#perfilMenu {
+    display: none;
+    position: absolute;
+    right: 0;
+    margin-top: 8px;
+    background: #e9f0f9;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    width: 200px;
+    text-align: center;
 }
 
-button:hover:not(:disabled) {
-    background-color: #0056b3;
-    border-color: #0056b3;
+#perfilMenu ul {
+    list-style: none;
+    margin: 0;
+    padding: 8px 0;
+    font-weight: bold;
 }
 
-a.button-link {
-    background-color: #6c757d;
-    color: white;
-    border: 1px solid #6c757d;
-    line-height: 1.3;
+#perfilMenu li {
+    padding: 8px 20px;
+    cursor: pointer;
+    color: #333;
+    transition: background-color 0.2s;
 }
 
-a.button-link:hover {
-    background-color: #5a6268;
-    border-color: #545b62;
+#perfilMenu li:hover {
+    background-color: #f9fafa;
+}
+
+#perfilMenu li#btnSalir:hover {
+    color: red;
+    background-color: #b5b5b5;
 }
 
 /* Responsive para móvil */
