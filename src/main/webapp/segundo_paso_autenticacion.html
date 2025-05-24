@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Autentificación con Google</title>
+
+        <link href="estilos_kevin/segu_paso_autenti.css" rel="stylesheet" type="text/css"/>
+    <body>
+        <div class="container">
+            <h1>Autenticación en dos pasos</h1>
+
+            <img src="img_kevin/logo_autenti_google.png" alt="Autenticación de Google" class="logo-icon">
+
+            <strong>Ingresa el código:</strong>
+            <p>Ingresa a tu aplicación Autenticador de Google en tu teléfono móvil e ingresa el códiigo:</p>
+
+            <input type="text" class="input-codigo" id="codigo" maxlength="6" pattern="\d{6}" placeholder="000000" inputmode="numeric"
+                   autocomplete="one-time-code" required />
+
+            <button id="btnContinuar" disabled>Continuar</button>
+
+            <a href="indexAutenticarKevin.html" class="button-link">Regresar</a>
+
+        </div>
+
+        <script>
+            const codigoInput = document.getElementById('codigo');
+            const btnContinuar = document.getElementById('btnContinuar');
+
+            // Función para validar que el código tenga 6 dígitos numéricos
+            function validarCodigo() {
+                const codigo = codigoInput.value.trim();
+                // Solo dígitos y longitud 6
+                const esValido = /^\d{6}$/.test(codigo);
+                btnContinuar.disabled = !esValido;
+            }
+
+            codigoInput.addEventListener('input', validarCodigo);
+
+            btnContinuar.addEventListener('click', () => {
+                alert(`Verificando código: ${codigoInput.value}`);
+
+                window.location.href = "clientesKevin.html";
+                // Aquí puedes agregar la lógica para enviar el código al backend y validar
+            });
+        </script>
+
+    </body>
+
+</html>

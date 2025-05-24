@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8" />
-    <title>Lista de Clientes BD</title>
+    <title>Página Principal</title>
     
     <link href="estilos_kevin/listarClientes.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -93,7 +93,7 @@
             document.getElementById("logoutBtn").addEventListener("click", () => {
                 setCookie("token", "", -1);
                 setCookie("nombreUsuario", "", -1);
-                window.location.href = "indexFloresKevin.html";
+                window.location.href = "indexAutenticarKevin.html";
             });
 
             const menuItems = profileMenu.querySelectorAll(".menuItem");
@@ -110,7 +110,7 @@
             let token = getCookie("token");
             if (!token) {
                 alert("No estás autenticado, ¡Inicia Sesión!");
-                window.location.href = "indexFloresKevin.html";
+                window.location.href = "indexAutenticarKevin.html";
                 return;
             }
 
@@ -141,3 +141,4 @@
 
 </body>
 </html>
+

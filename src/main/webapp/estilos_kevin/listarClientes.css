@@ -1,0 +1,72 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 40px 20px 20px 20px;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px; /* para que no tape la barra superior */
+}
+th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+th {
+    background-color: #eee;
+}
+/* Estilos barra superior */
+#topbar {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 999;
+}
+#profileContainer {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    background: #f0f0f0;
+    padding: 5px 10px;
+    border-radius: 30px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+#profileContainer img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+#profileMenu {
+    display: none;
+    position: absolute;
+    right: 0;
+    margin-top: 8px;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    width: 180px;
+}
+#profileMenu ul {
+    list-style: none;
+    margin: 0;
+    padding: 8px 0;
+}
+#profileMenu li {
+    padding: 8px 20px;
+    cursor: pointer;
+    color: #333;
+    transition: background-color 0.2s;
+}
+#profileMenu li:hover {
+    background-color: #eee;
+}
+#profileMenu li#logoutBtn {
+    color: #d9534f;
+}
+#profileMenu li#logoutBtn:hover {
+    background-color: #f2dede;
+}
+
