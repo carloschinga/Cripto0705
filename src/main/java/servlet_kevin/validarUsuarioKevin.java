@@ -41,6 +41,7 @@ public class validarUsuarioKevin extends HttpServlet {
                     String token = JwtUtil.generarToken(u.getLogiUsua());
 
                     miJson.put("resultado", "ok");
+                    miJson.put("idUsuario", u.getCodiUsua());
                     miJson.put("nombre", u.getLogiUsua());
                     miJson.put("token", token);
                 }

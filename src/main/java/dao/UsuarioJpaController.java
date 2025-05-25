@@ -13,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
@@ -169,6 +170,39 @@ public class UsuarioJpaController implements Serializable {
             return null;
         } finally {
             em.close();
+        }
+    }
+
+    //Método cambiar clave Kevin
+    public String cambiarClave(Usuario usu, String nuevaClave) {
+        EntityManager em = getEntityManager();
+        try {
+            Usuario uuu = findUsuario(usu.getCodiUsua());
+            if (uuu != null) {
+                uuu.setPassUsua(nuevaClave);
+                edit(uuu);
+                return "Clave cambiada";
+            } else {
+                return "Usuario no encontrado";
+            }
+        } catch (Exception ex) {
+            return null;
+        } finally {
+            em.close();
+        }
+    }
+
+    //Prueba piloto de métodos
+    public static void main(String[] args) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_Cripto006_war_1.0-SNAPSHOTPU");
+        UsuarioJpaController usuDAO = new UsuarioJpaController(emf);
+
+        Usuario usu = usuDAO.findUsuario(Integer.parseInt("73252202"));
+        if (usu != null) {
+            String resultado = usuDAO.cambiarClave(usu, "2910");
+            System.out.println(resultado);
+        } else {
+            System.out.println("Usuario no encontrado");
         }
     }
 }

@@ -75,13 +75,38 @@
 
                 <nav class="profile-dropdown" role="menu" aria-label="Opciones de usuario">
                     <ul>
-                        <li tabindex="0" role="menuitem">Cambiar contraseña</li>
-                        <li tabindex="0" role="menuitem" class="logout">Salir</li>
+                        <li id="opcionesModal" tabindex="0" role="menuitem">Cambiar contraseña</li>
+                        <li id="opcionesModal" tabindex="0" role="menuitem" class="logout">Salir</li>
                     </ul>
                 </nav>
             </div>
         </div>
     </header>
+
+    <!-- Modal Cambiar Contraseña -->
+    <div id="modalCambiarPass" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-content">
+            <div class="modal-header" id="modalTitle">Cambiar Contraseña</div>
+            <form id="formCambiarPass">
+                <label>Usuario</label>
+                <input type="text" id="ponerUsuarioNombre" disabled />
+
+                <label>Contraseña Actual</label>
+                <input type="password" id="passActual" required />
+
+                <label>Contraseña Nueva</label>
+                <input type="password" id="passNueva" required />
+
+                <label>Confirmar Contraseña</label>
+                <input type="password" id="passConfirmar" required />
+
+                <div class="modal-buttons">
+                    <button type="button" id="btnCancelarContra">Cancelar</button>
+                    <button type="submit" id="btnCambiarContra">Cambiar Contraseña</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <main class="main-content" role="main">
         <h1>Listado de Clientes</h1>
@@ -167,15 +192,6 @@
                 window.location.href = "indexAutenticarKevin.html";
             });
 
-            const otherItems = document.querySelectorAll(".profile-dropdown li:not(.logout)");
-            otherItems.forEach(item => {
-                item.addEventListener("click", () => {
-                    alert(`Has seleccionado: ${item.textContent}`);
-                    profileDropdown.classList.remove("active");
-                    profileMenuContainer.setAttribute("aria-expanded", "false");
-                });
-            });
-
             //Validar token antes de mostrar todo
             let token = getCookie("token");
             if (!token) {
@@ -184,8 +200,101 @@
                 return;
             }
 
-            console.log("Token obtenido: " + token);
+            //===================================================================================================================
+            const modal = document.getElementById('modalCambiarPass');
+            const btnCambiarPassMenu = document.getElementById("opcionesModal");
+            const nombreMiUsuarioSpan = document.getElementById('nombreUsuario');
+            const inputUsuarioNombre = document.getElementById('ponerUsuarioNombre');
+            const formCambiarContra = document.getElementById('formCambiarPass');
+            const btnCancelarContra = document.getElementById('btnCancelarContra');
 
+            // Abrir modal al hacer click en "Cambiar Contraseña" del menú y ASIGNAR USUARIO
+            btnCambiarPassMenu.addEventListener('click', () => {
+                inputUsuarioNombre.value = nombreMiUsuarioSpan.textContent;
+                modal.style.display = 'block';
+            });
+
+            // Cerrar modal con cancelar o click fuera modal
+            btnCancelarContra.addEventListener('click', () => {
+                modal.style.display = 'none';
+                formCambiarContra.reset();
+            });
+
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                    formCambiarContra.reset();
+                }
+            });
+
+            // Función de cerrar sesión
+            function cerrarSesionYVolver() {
+                setCookie("token", "", -1);
+                setCookie("nombreUsuario", "", -1);
+                setCookie("idUsuarioBD", "", -1);
+                window.location.href = "indexAutenticarKevin.html";
+            }
+
+            //Obtener token y codigo de Usuario
+            const obtToken = getCookie("token");
+            const obtCodigo = getCookie("idUsuarioBD");
+            console.log("TOKEN: " + obtToken);
+            console.log("CODIGO: " + obtCodigo);
+
+            formCambiarContra.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const passActual = document.getElementById('passActual').value.trim();
+                const passNueva = document.getElementById('passNueva').value.trim();
+                const passConfirmar = document.getElementById('passConfirmar').value.trim();
+
+                const btnCambioContra = document.getElementById('btnCambiarContra');
+                const btnCancelContra = document.getElementById('btnCancelarContra');
+
+                if (passNueva !== passConfirmar) {
+                    alert('La nueva contraseña y la confirmación no coinciden.');
+                    return;
+                }
+
+                if (passNueva === passActual) {
+                    alert('La nueva contraseña no puede ser igual a su contraseña actual');
+                    return;
+                }
+
+                try {
+                    const misParametros = new URLSearchParams({
+                        id: obtCodigo,
+                        actual: passActual,
+                        nueva: passNueva
+                    });
+
+                    const resultado = await fetch(`cambiarContraKevin?token=${obtToken}&${misParametros.toString()}`, {
+                        method: "POST"
+                    });
+
+                    const result = await resultado.json();
+
+                    if (result.resultado === "ok") {
+                        btnCambioContra.disabled = true;
+                        btnCancelContra.disabled = true;
+                        btnCambioContra.textContent = 'Procesando...';
+
+                        setTimeout(() => {
+                            alert('Contraseña cambiada. Por favor, inicia sesión de nuevo.');
+                            cerrarSesionYVolver();
+                        }, 2000);
+                    } else {
+                        alert("Contraseña actual incorrecta");
+                    }
+                } catch (error) {
+                    console.error("Error al procesar la solicitud:", error);
+                    alert("Hubo un error al cambiar la contraseña.");
+                }
+            });
+
+            //===================================================================================================================
+
+            //LLamada para clientes
             fetch("clientes?token=" + encodeURIComponent(token))
                 .then(response => {
                     if (!response.ok) throw new Error("Error al obtener los clientes");

@@ -1,90 +1,91 @@
 <!DOCTYPE html>
 <html lang="es">
 
-<head>
-    <meta charset="UTF-8" />
-    <title>Iniciar Sesión Kevin</title>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Iniciar Sesión Kevin</title>
 
-    <!-- Font Awesome para iconos -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+        <!-- Font Awesome para iconos -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-    <link href="estilos_kevin/indexAutenticacion.css" rel="stylesheet" type="text/css"/>
-</head>
+        <link href="estilos_kevin/indexAutenticacion.css" rel="stylesheet" type="text/css"/>
+    </head>
 
-<body>
-    <div class="container">
-        <h2>¡BIENVENIDA(O)!</h2>
+    <body>
+        <div class="container">
+            <h2>¡BIENVENIDA(O)!</h2>
 
-        <p>Por favor ingrese sus credenciales para utilizar la app de Authenticator de Google</p>
+            <p>Por favor ingrese sus credenciales para utilizar la app de Authenticator de Google</p>
 
-        <div class="imagens">
-            <img src="img_kevin/logo_autenti_google.png" alt="authenticator de Google" class="logo-icon" />
-            <img src="img_kevin/Logo_UNJFSC.png" alt="Universidad Nacional José Faustino Sanchéz Carrión"
-                class="logo-icon" />
+            <div class="imagens">
+                <img src="img_kevin/logo_autenti_google.png" alt="authenticator de Google" class="logo-icon" />
+                <img src="img_kevin/Logo_UNJFSC.png" alt="Universidad Nacional José Faustino Sanchéz Carrión"
+                     class="logo-icon" />
+            </div>
+
+            <form id="loginForm">
+                <div class="input-group">
+                    <i class="fas fa-user icon-left"></i>
+                    <input type="text" id="user" placeholder="Usuario o correo" required />
+                </div>
+
+                <div class="input-group">
+                    <i class="fas fa-lock icon-left"></i>
+                    <input type="password" id="pass" placeholder="Contraseña" required />
+                    <i class="fas fa-eye toggle-password" id="verContra"></i>
+                </div>
+
+                <button id="btnIniciar" type="submit">INGRESAR</button>
+            </form>
         </div>
 
-        <form id="loginForm">
-            <div class="input-group">
-                <i class="fas fa-user icon-left"></i>
-                <input type="text" id="user" placeholder="Usuario o correo" required />
-            </div>
+        <script>
+            // Mostrar/Ocultar contraseña
+            const password = document.getElementById("pass");
+            const toggle = document.getElementById("verContra");
 
-            <div class="input-group">
-                <i class="fas fa-lock icon-left"></i>
-                <input type="password" id="pass" placeholder="Contraseña" required />
-                <i class="fas fa-eye toggle-password" id="verContra"></i>
-            </div>
+            toggle.addEventListener("click", function () {
+                const type = password.getAttribute("type") === "password" ? "text" : "password";
+                password.setAttribute("type", type);
+                this.classList.toggle("fa-eye");
+                this.classList.toggle("fa-eye-slash");
+            });
 
-            <button id="btnIniciar" type="submit">INGRESAR</button>
-        </form>
-    </div>
+            // Login con usuario y contraseña
+            const loginForm = document.getElementById("loginForm");
+            loginForm.addEventListener("submit", function (e) {
+                e.preventDefault();
 
-    <script>
-        // Mostrar/Ocultar contraseña
-        const password = document.getElementById("pass");
-        const toggle = document.getElementById("verContra");
+                const user = document.getElementById("user").value;
+                const pass = document.getElementById("pass").value;
 
-        toggle.addEventListener("click", function () {
-            const type = password.getAttribute("type") === "password" ? "text" : "password";
-            password.setAttribute("type", type);
-            this.classList.toggle("fa-eye");
-            this.classList.toggle("fa-eye-slash");
-        });
+                const url = `validarUsuarioKevin?user=${encodeURIComponent(user)}&pass=${encodeURIComponent(pass)}`;
 
-        // Login con usuario y contraseña
-        const loginForm = document.getElementById("loginForm");
-        loginForm.addEventListener("submit", function (e) {
-            e.preventDefault();
+                fetch(url)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.resultado === "ok") {
+                                setCookie("token", data.token, 7); //Guardamos el token
+                                setCookie("nombreUsuario", data.nombre, 7); //Guarda el nombre
+                                setCookie("idUsuarioBD", data.idUsuario, 7); //Guarda el idUsuario
+                                window.location.href = "config_autentificacion_multifactor.html";
+                            } else {
+                                alert("Usuario o contraseña incorrectos");
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error al procesar la solicitud:", error);
+                        });
+            });
 
-            const user = document.getElementById("user").value;
-            const pass = document.getElementById("pass").value;
-
-            const url = `validarUsuarioKevin?user=${encodeURIComponent(user)}&pass=${encodeURIComponent(pass)}`;
-
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.resultado === "ok") {
-                        setCookie("token", data.token, 7); //Guardamos el token
-                        setCookie("nombreUsuario", data.nombre, 7); //Guarda el nombre
-                        window.location.href = "config_autentificacion_multifactor.html";
-                    } else {
-                        alert("Usuario o contraseña incorrectos");
-                    }
-                })
-                .catch(error => {
-                    console.error("Error al procesar la solicitud:", error);
-                });
-        });
-
-        // Crear cookies para guardar
-        function setCookie(nombre, valor, dias) {
-            const fecha = new Date();
-            fecha.setTime(fecha.getTime() + (dias * 24 * 60 * 60 * 1000));
-            const expira = "expires=" + fecha.toUTCString();
-            document.cookie = nombre + "=" + encodeURIComponent(valor) + ";" + expira + ";path=/";
-        }
-    </script>
-</body>
+            // Crear cookies para guardar
+            function setCookie(nombre, valor, dias) {
+                const fecha = new Date();
+                fecha.setTime(fecha.getTime() + (dias * 24 * 60 * 60 * 1000));
+                const expira = "expires=" + fecha.toUTCString();
+                document.cookie = nombre + "=" + encodeURIComponent(valor) + ";" + expira + ";path=/";
+            }
+        </script>
+    </body>
 
 </html>
