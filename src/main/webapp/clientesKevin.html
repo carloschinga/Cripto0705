@@ -106,7 +106,7 @@
                 }
             });
 
-            // Cargar clientes
+            // Si no estas autenticado te expulsa
             let token = getCookie("token");
             if (!token) {
                 alert("No estás autenticado, ¡Inicia Sesión!");

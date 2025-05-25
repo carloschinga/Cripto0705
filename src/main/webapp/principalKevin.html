@@ -1,43 +1,109 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8" />
-    <title>Página Principal</title>
-    
-    <link href="estilos_kevin/listarClientes.css" rel="stylesheet" type="text/css"/>
+    <title>Página Principal Mejorada</title>
+
+    <!-- Google Fonts for icons -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        rel="stylesheet" />
+
+    <!-- Google Fonts Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!--Estilos propios para la pagina-->
+    <link rel="stylesheet" href="estilos_kevin/principalKevin.css">
+
 </head>
+
 <body>
-    <!-- Barra superior con perfil -->
-    <div id="topbar">
-        <div id="profileContainer" tabindex="0" aria-haspopup="true" aria-expanded="false" role="button" aria-label="Menú de usuario">
-            <img src="https://cdn-icons-png.flaticon.com/512/64/64572.png" alt="Icono de perfil" />
-            <span id="nombreUsuario">Usuario</span>
+    <aside class="sidebar" aria-label="Menú de navegación">
+        <div class="sidebar-header">
+            <img src="img_kevin/Logo_UNJFSC.png" alt="Logo UNJFSC" />
+            <h2>SistemaUni</h2>
         </div>
-        <div id="profileMenu" role="menu" aria-label="Opciones de usuario">
-            <ul>
-                <li class="menuItem" role="menuitem" tabindex="0">Configuración</li>
-                <li class="menuItem" role="menuitem" tabindex="0">Cambiar contraseña</li>
-                <li class="menuItem" role="menuitem" tabindex="0" id="logoutBtn">Salir</li>
-            </ul>
+
+        <ul class="sidebar-links">
+            <h3>Menú Principal</h3>
+            <li><a href="#"><span class="material-symbols-outlined">dashboard</span><span
+                        class="link-text">General</span></a></li>
+            <li><a href="#"><span class="material-symbols-outlined">overview</span><span
+                        class="link-text">Clientes</span></a></li>
+            <li><a href="#"><span class="material-symbols-outlined">monitoring</span><span
+                        class="link-text">Productos</span></a></li>
+
+            <h3>General</h3>
+            <li><a href="#"><span class="material-symbols-outlined">folder</span><span
+                        class="link-text">Compra</span></a></li>
+            <li><a href="#"><span class="material-symbols-outlined">groups</span><span class="link-text">Detalle
+                        Compra</span></a></li>
+            <li><a href="#"><span class="material-symbols-outlined">move_up</span><span
+                        class="link-text">Proyectos</span></a></li>
+            <li><a href="#"><span class="material-symbols-outlined">flag</span><span
+                        class="link-text">Reportes</span></a></li>
+
+            <h3>Cuenta</h3>
+            <li><a href="#"><span class="material-symbols-outlined">account_circle</span><span
+                        class="link-text">Perfil</span></a></li>
+            <li><a href="#"><span class="material-symbols-outlined">settings</span><span
+                        class="link-text">Configuración</span></a></li>
+            <li><a href="#"><span class="material-symbols-outlined">logout</span><span class="link-text">Cerrar
+                        Sesión</span></a></li>
+        </ul>
+    </aside>
+
+    <!-- Header superior -->
+    <header class="topbar" role="banner">
+        <div class="search-container">
+            <input type="search" placeholder="Buscar..." aria-label="Buscar" />
         </div>
-    </div>
-    <br>
-    <hr>
-    <h1>Listado de Clientes</h1>
-    <table id="tablaClientes">
-        <thead>
-            <tr>
-                <th>Código</th>
-                <th>Apellido Paterno</th>
-                <th>Apellido Materno</th>
-                <th>Nombre</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+
+        <div class="actions" role="navigation" aria-label="Acciones de usuario">
+            <button class="icon-button" aria-label="Notificaciones">
+                <span class="material-symbols-outlined">notifications</span>
+                <span class="badge" aria-live="polite" aria-atomic="true">3</span>
+            </button>
+
+            <div class="profile-menu-container" tabindex="0" aria-haspopup="true" aria-expanded="false"
+                aria-label="Menú de perfil de usuario">
+                <div class="profile-summary">
+                    <img src="https://cdn-icons-png.flaticon.com/512/64/64572.png" alt="Icono de perfil" />
+                    Hola,<span id="nombreUsuario">Usuario</span>
+                </div>
+
+                <nav class="profile-dropdown" role="menu" aria-label="Opciones de usuario">
+                    <ul>
+                        <li tabindex="0" role="menuitem">Cambiar contraseña</li>
+                        <li tabindex="0" role="menuitem" class="logout">Salir</li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content" role="main">
+        <h1>Listado de Clientes</h1>
+        <table id="tablaClientes" aria-describedby="descripcionTabla">
+            <br>
+            <p style="text-align: center;">Listado de clienets registrados en nuestra base de datos</p>
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Apellido Paterno</th>
+                    <th>Apellido Materno</th>
+                    <th>Nombre</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Se llenará con datos de la BD -->
+            </tbody>
+        </table>
+    </main>
 
     <script>
-        // Funciones para obtener cookies
+        // Funciones para cookies
         function getCookie(nombre) {
             const nombreEQ = nombre + "=";
             const cookies = document.cookie.split(';');
@@ -49,7 +115,7 @@
             }
             return null;
         }
-        
+
         function setCookie(nombre, valor, dias) {
             const fecha = new Date();
             fecha.setTime(fecha.getTime() + (dias * 24 * 60 * 60 * 1000));
@@ -58,61 +124,67 @@
         }
 
         document.addEventListener("DOMContentLoaded", () => {
-            // Mostrar nombre de usuario en la barra superior
+            // Mostrar nombre de usuario
             let nombre = getCookie("nombreUsuario");
             const nombreUsuarioSpan = document.getElementById("nombreUsuario");
+            nombreUsuarioSpan.style.fontWeight = "600";
+            nombreUsuarioSpan.style.textTransform = "uppercase";
+
             if (nombre) {
                 nombreUsuarioSpan.textContent = decodeURIComponent(nombre);
             } else {
-                nombreUsuarioSpan.textContent = "Usuario";
+                nombreUsuarioSpan.textContent = "USUARIO";
             }
 
-            // Manejar menú desplegable
-            const profileContainer = document.getElementById("profileContainer");
-            const profileMenu = document.getElementById("profileMenu");
+            // Mostrar/ocultar menú perfil
+            const profileMenuContainer = document.querySelector(".profile-menu-container");
+            const profileDropdown = document.querySelector(".profile-dropdown");
 
-            profileContainer.addEventListener("click", () => {
-                if (profileMenu.style.display === "block") {
-                    profileMenu.style.display = "none";
-                    profileContainer.setAttribute("aria-expanded", "false");
+            profileMenuContainer.addEventListener("click", () => {
+                const expanded = profileMenuContainer.getAttribute("aria-expanded") === "true";
+                if (expanded) {
+                    profileDropdown.classList.remove("active");
+                    profileMenuContainer.setAttribute("aria-expanded", "false");
                 } else {
-                    profileMenu.style.display = "block";
-                    profileContainer.setAttribute("aria-expanded", "true");
+                    profileDropdown.classList.add("active");
+                    profileMenuContainer.setAttribute("aria-expanded", "true");
                 }
             });
 
-            // Cerrar menú si se hace click fuera
+            // Cerrar menú perfil al hacer click fuera
             document.addEventListener("click", (e) => {
-                if (!profileContainer.contains(e.target) && !profileMenu.contains(e.target)) {
-                    profileMenu.style.display = "none";
-                    profileContainer.setAttribute("aria-expanded", "false");
+                if (!profileMenuContainer.contains(e.target)) {
+                    profileDropdown.classList.remove("active");
+                    profileMenuContainer.setAttribute("aria-expanded", "false");
                 }
             });
 
-            // Opciones menú
-            document.getElementById("logoutBtn").addEventListener("click", () => {
+            // Manejo opciones menú perfil
+            const logoutBtn = document.querySelector(".profile-dropdown .logout");
+            logoutBtn.addEventListener("click", () => {
                 setCookie("token", "", -1);
                 setCookie("nombreUsuario", "", -1);
                 window.location.href = "indexAutenticarKevin.html";
             });
 
-            const menuItems = profileMenu.querySelectorAll(".menuItem");
-            menuItems.forEach(item => {
-                if(item.id !== "logoutBtn"){
-                    item.addEventListener("click", () => {
-                        alert(`Has seleccionado: ${item.textContent}`);
-                        profileMenu.style.display = "none";
-                    });
-                }
+            const otherItems = document.querySelectorAll(".profile-dropdown li:not(.logout)");
+            otherItems.forEach(item => {
+                item.addEventListener("click", () => {
+                    alert(`Has seleccionado: ${item.textContent}`);
+                    profileDropdown.classList.remove("active");
+                    profileMenuContainer.setAttribute("aria-expanded", "false");
+                });
             });
 
-            // Cargar clientes
+            //Validar token antes de mostrar todo
             let token = getCookie("token");
             if (!token) {
                 alert("No estás autenticado, ¡Inicia Sesión!");
                 window.location.href = "indexAutenticarKevin.html";
                 return;
             }
+
+            console.log("Token obtenido: " + token);
 
             fetch("clientes?token=" + encodeURIComponent(token))
                 .then(response => {
@@ -138,7 +210,6 @@
                 });
         });
     </script>
-
 </body>
-</html>
 
+</html>
