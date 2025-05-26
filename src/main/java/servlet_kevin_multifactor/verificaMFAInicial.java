@@ -20,6 +20,7 @@ public class verificaMFAInicial extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json");
+        
         try (PrintWriter out = response.getWriter()) {
             String token = request.getParameter("token");
             if (token == null || !JwtUtil.validarToken(token)) {

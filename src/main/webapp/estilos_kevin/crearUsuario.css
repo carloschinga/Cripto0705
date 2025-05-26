@@ -6,7 +6,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background-image: url("../img_kevin/unjfsc_fondo001.jpg");
+    background-image: url("../img_kevin/unjfsc_frontis.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -14,34 +14,6 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-}
-
-#crearUsuarioIcon {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    width: 50px;
-    height: 50px;
-    background-color: #28a745;
-    border-radius: 50%;
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 1);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    text-decoration: none;
-    z-index: 9999;
-    font-size: 14px;
-}
-
-#crearUsuarioIcon i{
-    font-size: 20px;
-}
-
-#crearUsuarioIcon:hover {
-    background-color: #218838;
-    /* verde más oscuro al hover */
 }
 
 .container {
@@ -52,7 +24,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 450px;
+    max-width: 500px;
     text-align: center;
 }
 
@@ -93,11 +65,11 @@ body {
     cursor: pointer;
 }
 
-.container button {
+#btnCrear{
     margin: 30px auto 0 auto;
     width: 300px;
     padding: 15px;
-    margin-top: 30px;
+    margin-top: 20px;
     border: none;
     border-radius: 8px;
     background-color: #3180f6;
@@ -112,25 +84,52 @@ body {
     font-weight: bold;
 }
 
+#btnCrear:disabled {
+    background-color: #bec5cc;
+    cursor: default;
+    color: white;
+}
+
+#btnCancelar{
+    margin: 30px auto 0 auto;
+    width: 300px;
+    padding: 15px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 8px;
+    background-color: #fea198;
+    color: #000;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    box-sizing: border-box;
+    font-weight: bold;
+}
+
 p {
     font-size: 1rem;
     font-style: italic;
     font-weight: bold;
-    font-family: sans-serif;
+    font-family: Arial;
+    margin-bottom: 30px;
 }
 
 h2 {
-    font-family: cursive;
-    font-weight: bold;
+    font-size: 30px;
+    font-family: Arial;
+    font-weight: 700;
 }
 
 .logo-icon {
-    width: 150px;
-    height: 150px;
-    padding: 10px;
-    margin-top: 10px;
-    margin-bottom: 20px;
+    width: 60px;
+    height: auto;
+    vertical-align: middle;
+    margin: 0 10px;
 }
+
 
 /* Responsive para móvil */
 @media (max-width: 480px) {
