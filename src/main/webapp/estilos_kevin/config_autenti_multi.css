@@ -2,7 +2,8 @@
     box-sizing: border-box;
 }
 
-body, html {
+body,
+html {
     margin: 0;
     padding: 0;
     height: 100%;
@@ -61,23 +62,53 @@ strong {
 
 .qr-container {
     display: flex;
-    width: 150px;
-    height: 150px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 180px;
+    height: 180px;
     margin-top: 15px;
-    text-align: center;
     background-color: #cae4ff;
     align-items: center;
     justify-content: center;
     margin: auto;
+    position: relative;
 }
 
-/*.qr-container img {
-    max-width: 130px;
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
-}*/
+.qr-container img {
+    width: 150px;
+    height: 150px;
+    display: none;
+    /*INICIAR OCULTOO*/
+}
+
+#btnMostrarQR {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+#btnMostrarQR:hover{
+    background-color: #fffbb4;
+    color: #000;
+}
+
+#btnMostrarQR:disabled {
+    background-color: #ccc;
+}
+
+.qr-container img.show {
+    display: block;
+    /*Muestra el QR cuando show es añadidoF*/
+}
+
+#btnMostrarQR.hidden{
+    display: none; /*Oculata el botón despues de hacer click*/
+}
 
 .input-group {
     margin-top: 10px;
@@ -139,7 +170,7 @@ input[type="text"]:focus {
     cursor: pointer;
 }
 
-.buttons{
+.buttons {
     margin-top: 3rem;
     display: flex;
     flex-direction: column;
@@ -224,5 +255,3 @@ input[type="text"]:focus {
         flex-direction: column;
     }
 }
-
-

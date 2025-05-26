@@ -1,11 +1,9 @@
-package servlet_kevin;
+package servlet_kevin_multifactor;
 
-import dao.UsuarioJpaController;
-import dto.Usuario;
+import dao.UsuariosJpaController;
+import dto.Usuarios;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,10 +32,10 @@ public class cambiarContraKevin extends HttpServlet {
                 contraNueva = request.getParameter("nueva");
 
                 try {
-                    EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_Cripto006_war_1.0-SNAPSHOTPU");
-                    UsuarioJpaController usuDAO = new UsuarioJpaController(emf);
 
-                    Usuario usu = usuDAO.findUsuario(Integer.parseInt(id));
+                    UsuariosJpaController usuDAO = new UsuariosJpaController();
+
+                    Usuarios usu = usuDAO.findUsuarios(id);
 
                     JSONObject miJson = new JSONObject();
 

@@ -5,6 +5,7 @@
     <class>dto.Usuario</class>
     <class>dto.Producto</class>
     <class>dto.Cliente</class>
+    <class>dto.Usuarios</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/cripto?zeroDateTimeBehavior=CONVERT_TO_NULL"/>

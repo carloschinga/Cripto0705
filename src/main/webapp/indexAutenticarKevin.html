@@ -51,33 +51,6 @@
                 this.classList.toggle("fa-eye-slash");
             });
 
-            // Login con usuario y contraseña
-            const loginForm = document.getElementById("loginForm");
-            loginForm.addEventListener("submit", function (e) {
-                e.preventDefault();
-
-                const user = document.getElementById("user").value;
-                const pass = document.getElementById("pass").value;
-
-                const url = `validarUsuarioKevin?user=${encodeURIComponent(user)}&pass=${encodeURIComponent(pass)}`;
-
-                fetch(url)
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.resultado === "ok") {
-                                setCookie("token", data.token, 7); //Guardamos el token
-                                setCookie("nombreUsuario", data.nombre, 7); //Guarda el nombre
-                                setCookie("idUsuarioBD", data.idUsuario, 7); //Guarda el idUsuario
-                                window.location.href = "config_autentificacion_multifactor.html";
-                            } else {
-                                alert("Usuario o contraseña incorrectos");
-                            }
-                        })
-                        .catch(error => {
-                            console.error("Error al procesar la solicitud:", error);
-                        });
-            });
-
             // Crear cookies para guardar
             function setCookie(nombre, valor, dias) {
                 const fecha = new Date();
@@ -85,6 +58,44 @@
                 const expira = "expires=" + fecha.toUTCString();
                 document.cookie = nombre + "=" + encodeURIComponent(valor) + ";" + expira + ";path=/";
             }
+
+            // Login con usuario y contraseña
+            document.getElementById("loginForm").addEventListener("submit", async function (e) {
+                e.preventDefault();
+
+                const user = document.getElementById("user").value.trim();
+                const pass = document.getElementById("pass").value.trim();
+
+                const url = `loginValidarUsuario?user=${encodeURIComponent(user)}&pass=${encodeURIComponent(pass)}`;
+                
+                try {
+                    const response = await fetch(url);
+                    const data = await response.json();
+
+                    if (data.resultado === "mfa_config") {
+                        // Usuario debe configurar MFA
+                        setCookie("idUsuarioBD", data.idUsuario, 1);
+                        setCookie("nombreUsuario", data.nombre, 1);
+                        setCookie("token", data.token, 1);
+                        window.location.href = "config_autentificacion_multifactor.html";
+                    } else if (data.resultado === "mfa_required") {
+                        // Usuario ya tiene MFA configurado, debe ingresar código MFA
+                        setCookie("idUsuarioBD", data.idUsuario, 1);
+                        setCookie("nombreUsuario", data.nombre, 1);
+                        setCookie("token", data.token, 1);
+
+                        window.location.href = "segundo_paso_autenticacion.html";
+                    } else if (data.resultado === "error") {
+                        alert("Usuario o contraseña incorrectos");
+                    } else {
+                        alert("Error inesperado en login");
+                    }
+                } catch (error) {
+                    alert("Error de conexión al servidor");
+                    console.error(error);
+                }
+            });
+
         </script>
     </body>
 

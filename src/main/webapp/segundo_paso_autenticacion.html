@@ -1,129 +1,65 @@
 <!DOCTYPE html>
 <html lang="es">
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Autentificación con Google</title>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Autentificación con Google</title>
 
-    <link href="estilos_kevin/segu_paso_autenti.css" rel="stylesheet" type="text/css" />
+        <link href="estilos_kevin/segu_paso_autenti.css" rel="stylesheet" type="text/css" />
 
-<body>
-    <!--Barra superior de perfil-->
-    <div id="topbar">
-        <div id="perfilContenedor" tabindex="0" aria-haspopup="true" aria-expanded="false" role="button"
-            aria-label="Menú de usuario">
-            <img src="https://cdn-icons-png.flaticon.com/512/64/64572.png" alt="Icono de perfil" />
-            Hola, <span id="nombreUsuario">Usuario</span>
+    <body>
+        <!--Barra superior de perfil-->
+        <div id="topbar">
+            <div id="perfilContenedor" tabindex="0" aria-haspopup="true" aria-expanded="false" role="button"
+                 aria-label="Menú de usuario">
+                <img src="https://cdn-icons-png.flaticon.com/512/64/64572.png" alt="Icono de perfil" />
+                Hola, <span id="nombreUsuario">Usuario</span>
+            </div>
+
+            <div id="perfilMenu" role="menu" aria-label="Opciones de usuario">
+                <ul>
+                    <li class="menuItem" role="menuItem" tabindex="0" id="btnSalir">Salir</li>
+                </ul>
+            </div>
+        </div>
+        <br>
+
+        <div class="container">
+            <h1>Autenticación en dos pasos</h1>
+
+            <img src="img_kevin/logo_autenti_google.png" alt="Autenticación de Google" class="logo-icon">
+
+            <strong>Ingresa el código:</strong>
+            <p>Ingresa a tu aplicación Autenticador de Google en tu teléfono móvil e ingresa el códiigo:</p>
+
+            <input type="text" class="input-codigo" id="codigo" maxlength="6" pattern="\d{6}" placeholder="000000"
+                   inputmode="numeric" autocomplete="one-time-code" required />
+
+            <button id="btnContinuar" disabled>Continuar</button>
+
+            <a href="#" id="btnRegresar" class="button-link">Regresar</a>
+
         </div>
 
-        <div id="perfilMenu" role="menu" aria-label="Opciones de usuario">
-            <ul>
-                <li class="menuItem" role="menuItem" tabindex="0">Cambiar Contraseña</li>
-                <li class="menuItem" role="menuItem" tabindex="0" id="btnSalir">Salir</li>
-            </ul>
-        </div>
-    </div>
-    <br>
-
-    <!-- Modal Cambiar Contraseña -->
-    <div id="modalCambiarPass" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-        <div class="modal-content">
-            <div class="modal-header" id="modalTitle">Cambiar Contraseña</div>
-            <form id="formCambiarPass">
-                <label>Usuario</label>
-                <input type="text" id="ponerUsuarioNombre" disabled />
-
-                <label>Contraseña Actual</label>
-                <input type="password" id="passActual" required />
-
-                <label>Contraseña Nueva</label>
-                <input type="password" id="passNueva" required />
-
-                <label>Confirmar Contraseña</label>
-                <input type="password" id="passConfirmar" required />
-
-                <div class="modal-buttons">
-                    <button type="button" id="btnCancelarContra">Cancelar</button>
-                    <button type="submit" id="btnCambiarContra">Cambiar Contraseña</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div class="container">
-        <h1>Autenticación en dos pasos</h1>
-
-        <img src="img_kevin/logo_autenti_google.png" alt="Autenticación de Google" class="logo-icon">
-
-        <strong>Ingresa el código:</strong>
-        <p>Ingresa a tu aplicación Autenticador de Google en tu teléfono móvil e ingresa el códiigo:</p>
-
-        <input type="text" class="input-codigo" id="codigo" maxlength="6" pattern="\d{6}" placeholder="000000"
-            inputmode="numeric" autocomplete="one-time-code" required />
-
-        <button id="btnContinuar" disabled>Continuar</button>
-
-        <a href="#" id="btnRegresar" class="button-link">Regresar</a>
-
-    </div>
-
-    <script>
-        //Función para obtner cookis
-        function getCookie(nombre) {
-            const nombreEQ = nombre + "=";
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                let c = cookies[i].trim();
-                if (c.indexOf(nombreEQ) === 0) {
-                    return c.substring(nombreEQ.length, c.length);
+        <script>
+            //Funciones para cookies
+            function getCookie(name) {
+                const nameEQ = name + "=";
+                const ca = document.cookie.split(';');
+                for (let i = 0; i < ca.length; i++) {
+                    let c = ca[i].trim();
+                    if (c.indexOf(nameEQ) === 0)
+                        return decodeURIComponent(c.substring(nameEQ.length));
                 }
-            }
-            return null;
-        }
-
-        function setCookie(nombre, valor, dias) {
-            const fecha = new Date();
-            fecha.setTime(fecha.getTime() + (dias * 24 * 60 * 60 * 1000));
-            const expira = "expires=" + fecha.toUTCString();
-            document.cookie = nombre + "=" + encodeURIComponent(valor) + ";" + expira + ";path=/";
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            //Mostrar nombre de usuario en la barra superior
-            let nombre = getCookie("nombreUsuario");
-            const nombreUsuarioSpan = document.getElementById("nombreUsuario");
-            nombreUsuarioSpan.style.marginLeft = "2px";
-            nombreUsuarioSpan.style.fontWeight = "bold";
-            nombreUsuarioSpan.style.textTransform = "uppercase";
-
-            if (nombre) {
-                nombreUsuarioSpan.textContent = decodeURIComponent(nombre);
-            } else {
-                nombreUsuarioSpan.textContent = "Usuario fail";
+                return null;
             }
 
-            //Manejar menú desplegable
-            const perfContenedor = document.getElementById("perfilContenedor");
-            const perfMenu = document.getElementById("perfilMenu");
-
-            perfContenedor.addEventListener("click", () => {
-                if (perfMenu.style.display === "block") {
-                    perfMenu.style.display = "none";
-                    perfContenedor.setAttribute("aria-expanded", "false");
-                } else {
-                    perfMenu.style.display = "block";
-                    perfContenedor.setAttribute("aria-expanded", "true");
-                }
-            });
-
-            //Cerrar menú si se hace click fuera del usuario
-            document.addEventListener("click", (e) => {
-                if (!perfContenedor.contains(e.target) && !perfMenu.contains(e.target)) {
-                    perfMenu.style.display = "none";
-                    perfContenedor.setAttribute("aria-expanded", "false");
-                }
-            });
+            function setCookie(name, value, days) {
+                const d = new Date();
+                d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+                document.cookie = name + "=" + encodeURIComponent(value) + ";expires=" + d.toUTCString() + ";path=/";
+            }
 
             // Función de cerrar sesión
             function cerrarSesionYVolver() {
@@ -133,128 +69,110 @@
                 window.location.href = "indexAutenticarKevin.html";
             }
 
-            // Utiliza función y cierras segun elección
-            document.getElementById("btnSalir").addEventListener("click", cerrarSesionYVolver);
-            document.getElementById("btnRegresar").addEventListener("click", (e) => {
-                e.preventDefault();
-                cerrarSesionYVolver();
-            });
-
-            // No ejecutar nada si no se ha logueado
+            //Obtener cookies
+            let nombre = getCookie("nombreUsuario");
             let token = getCookie("token");
-            if (!token) {
-                alert("No estás autenticado, ¡Inicia Sesión!");
-                window.location.href = "indexAutenticarKevin.html";
-                return;
-            }
+            let codiUsuario = getCookie("idUsuarioBD");
 
-            const modal = document.getElementById('modalCambiarPass');
-            const btnCambiarPassMenu = [...document.querySelectorAll('#perfilMenu .menuItem')]
-                .find(el => el.textContent.trim() === 'Cambiar Contraseña');
-            const nombreMiUsuarioSpan = document.getElementById('nombreUsuario');
-            const inputUsuarioNombre = document.getElementById('ponerUsuarioNombre');
-            const formCambiarContra = document.getElementById('formCambiarPass');
-            const btnCancelarContra = document.getElementById('btnCancelarContra');
+            document.addEventListener("DOMContentLoaded", () => {
+                //Mostrar nombre de usuario en la barra superior
+                const nombreUsuarioSpan = document.getElementById("nombreUsuario");
+                nombreUsuarioSpan.style.marginLeft = "2px";
+                nombreUsuarioSpan.style.fontWeight = "bold";
+                nombreUsuarioSpan.style.textTransform = "uppercase";
 
-            // Abrir modal al hacer click en "Cambiar Contraseña" del menú y ASIGNAR USUARIO
-            btnCambiarPassMenu.addEventListener('click', () => {
-                inputUsuarioNombre.value = nombreMiUsuarioSpan.textContent;
-                modal.style.display = 'block';
-            });
-
-            // Cerrar modal con cancelar o click fuera modal
-            btnCancelarContra.addEventListener('click', () => {
-                modal.style.display = 'none';
-                formCambiarContra.reset();
-            });
-
-            window.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modal.style.display = 'none';
-                    formCambiarContra.reset();
+                if (nombre) {
+                    nombreUsuarioSpan.textContent = decodeURIComponent(nombre);
+                } else {
+                    nombreUsuarioSpan.textContent = "Usuario fail";
                 }
-            });
 
-            //Obtener token y codigo de Usuario
-            const obtToken = getCookie("token");
-            const obtCodigo = getCookie("idUsuarioBD");
-            console.log("TOKEN: " + obtToken);
-            console.log("CODIGO: " + obtCodigo);
+                //Manejar menú desplegable
+                const perfContenedor = document.getElementById("perfilContenedor");
+                const perfMenu = document.getElementById("perfilMenu");
 
-            formCambiarContra.addEventListener('submit', async (e) => {
-                e.preventDefault();
+                perfContenedor.addEventListener("click", () => {
+                    if (perfMenu.style.display === "block") {
+                        perfMenu.style.display = "none";
+                        perfContenedor.setAttribute("aria-expanded", "false");
+                    } else {
+                        perfMenu.style.display = "block";
+                        perfContenedor.setAttribute("aria-expanded", "true");
+                    }
+                });
 
-                const passActual = document.getElementById('passActual').value.trim();
-                const passNueva = document.getElementById('passNueva').value.trim();
-                const passConfirmar = document.getElementById('passConfirmar').value.trim();
+                //Cerrar menú si se hace click fuera del usuario
+                document.addEventListener("click", (e) => {
+                    if (!perfContenedor.contains(e.target) && !perfMenu.contains(e.target)) {
+                        perfMenu.style.display = "none";
+                        perfContenedor.setAttribute("aria-expanded", "false");
+                    }
+                });
 
-                const btnCambioContra = document.getElementById('btnCambiarContra');
-                const btnCancelContra = document.getElementById('btnCancelarContra');
+                // Utiliza función y cierras segun elección
+                document.getElementById("btnSalir").addEventListener("click", cerrarSesionYVolver);
+                document.getElementById("btnRegresar").addEventListener("click", (e) => {
+                    e.preventDefault();
+                    cerrarSesionYVolver();
+                });
 
-                if (passNueva !== passConfirmar) {
-                    alert('La nueva contraseña y la confirmación no coinciden.');
+                // No ejecutar nada si no se ha logueado
+                if (!token) {
+                    alert("No estás autenticado, ¡Inicia Sesión!");
+                    window.location.href = "indexAutenticarKevin.html";
                     return;
                 }
+            });
 
-                if (passNueva === passActual) {
-                    alert('La nueva contraseña no puede ser igual a su contraseña actual');
+            const codigoInput = document.getElementById('codigo');
+            const btnContinuar = document.getElementById('btnContinuar');
+
+            function validarCodigo() {
+                const codigo = codigoInput.value.trim();
+                const esValido = /^\d{6}$/.test(codigo);
+                btnContinuar.disabled = !esValido;
+            }
+
+            codigoInput.addEventListener('input', validarCodigo);
+
+            //Funcion para hacer la validación
+            btnContinuar.addEventListener('click', async () => {
+                const codigo = codigoInput.value.trim();
+                if (!token || !codiUsuario) {
+                    alert("Sesión inválida, por favor inicia sesión nuevamente.");
+                    window.location.href = "indexAutenticarKevin.html";
                     return;
                 }
 
                 try {
-                    const misParametros = new URLSearchParams({
-                        id: obtCodigo,
-                        actual: passActual,
-                        nueva: passNueva
+                    const formData = new URLSearchParams();
+                    formData.append("token", token);
+                    formData.append("user", codiUsuario);
+                    formData.append("codigo", codigo);
+
+                    const res = await fetch("verificarMFACodigo", {
+                        method: "POST",
+                        body: formData,
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded"
+                        }
                     });
 
-                    const resultado = await fetch(`cambiarContraKevin?token=${obtToken}&${misParametros.toString()}`, {
-                        method: "POST"
-                    });
+                    const data = await res.json();
 
-                    const result = await resultado.json();
-
-                    if (result.resultado === "ok") {
-                        btnCambioContra.disabled = true;
-                        btnCancelContra.disabled = true;
-                        btnCambioContra.textContent = 'Procesando...';
-
-                        setTimeout(() => {
-                            alert('Contraseña cambiada. Por favor, inicia sesión de nuevo.');
-                            cerrarSesionYVolver();
-                        }, 2000);
+                    if (data.resultado === "ok") {
+                        alert("Autenticación completa. Bienvenido.");
+                        window.location.href = "principalKevin.html";
                     } else {
-                        alert("Contraseña actual incorrecta");
+                        alert(data.mensaje || "Código inválido, intenta nuevamente.");
                     }
                 } catch (error) {
-                    console.error("Error al procesar la solicitud:", error);
-                    alert("Hubo un error al cambiar la contraseña.");
+                    alert("Error al conectar con el servidor.");
+                    console.error(error);
                 }
             });
+        </script>
 
-        });
-
-        const codigoInput = document.getElementById('codigo');
-        const btnContinuar = document.getElementById('btnContinuar');
-
-        // Función para validar que el código tenga 6 dígitos numéricos
-        function validarCodigo() {
-            const codigo = codigoInput.value.trim();
-            // Solo dígitos y longitud 6
-            const esValido = /^\d{6}$/.test(codigo);
-            btnContinuar.disabled = !esValido;
-        }
-
-        codigoInput.addEventListener('input', validarCodigo);
-
-        btnContinuar.addEventListener('click', () => {
-            alert(`Verificando código: ${codigoInput.value}`);
-
-            window.location.href = "principalKevin.html";
-            // Aquí puedes agregar la lógica para enviar el código al backend y validar
-        });
-    </script>
-
-</body>
+    </body>
 
 </html>

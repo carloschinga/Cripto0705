@@ -1,324 +1,321 @@
 <!DOCTYPE html>
 <html lang="es">
 
-<head>
-    <meta charset="UTF-8" />
-    <title>Página Principal Mejorada</title>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Página Principal Mejorada</title>
 
-    <!-- Google Fonts for icons -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-        rel="stylesheet" />
+        <!-- Google Fonts for icons -->
+        <link
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+            rel="stylesheet" />
 
-    <!-- Google Fonts Poppins -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+        <!-- Google Fonts Poppins -->
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-    <!--Estilos propios para la pagina-->
-    <link rel="stylesheet" href="estilos_kevin/principalKevin.css">
+        <!--Estilos propios para la pagina-->
+        <link rel="stylesheet" href="estilos_kevin/principalKevin.css">
 
-</head>
+    </head>
 
-<body>
-    <aside class="sidebar" aria-label="Menú de navegación">
-        <div class="sidebar-header">
-            <img src="img_kevin/Logo_UNJFSC.png" alt="Logo UNJFSC" />
-            <h2>SistemaUni</h2>
-        </div>
+    <body>
+        <aside class="sidebar" aria-label="Menú de navegación">
+            <div class="sidebar-header">
+                <img src="img_kevin/Logo_UNJFSC.png" alt="Logo UNJFSC" />
+                <h2>SistemaUni</h2>
+            </div>
 
-        <ul class="sidebar-links">
-            <h3>Menú Principal</h3>
-            <li><a href="#"><span class="material-symbols-outlined">dashboard</span><span
-                        class="link-text">General</span></a></li>
-            <li><a href="#"><span class="material-symbols-outlined">overview</span><span
-                        class="link-text">Clientes</span></a></li>
-            <li><a href="#"><span class="material-symbols-outlined">monitoring</span><span
-                        class="link-text">Productos</span></a></li>
+            <ul class="sidebar-links">
+                <h3>Menú Principal</h3>
+                <li><a href="#"><span class="material-symbols-outlined">dashboard</span><span
+                            class="link-text">General</span></a></li>
+                <li><a href="#"><span class="material-symbols-outlined">overview</span><span
+                            class="link-text">Clientes</span></a></li>
+                <li><a href="#"><span class="material-symbols-outlined">monitoring</span><span
+                            class="link-text">Productos</span></a></li>
 
-            <h3>General</h3>
-            <li><a href="#"><span class="material-symbols-outlined">folder</span><span
-                        class="link-text">Compra</span></a></li>
-            <li><a href="#"><span class="material-symbols-outlined">groups</span><span class="link-text">Detalle
-                        Compra</span></a></li>
-            <li><a href="#"><span class="material-symbols-outlined">move_up</span><span
-                        class="link-text">Proyectos</span></a></li>
-            <li><a href="#"><span class="material-symbols-outlined">flag</span><span
-                        class="link-text">Reportes</span></a></li>
+                <h3>General</h3>
+                <li><a href="#"><span class="material-symbols-outlined">folder</span><span
+                            class="link-text">Compra</span></a></li>
+                <li><a href="#"><span class="material-symbols-outlined">groups</span><span class="link-text">Detalle
+                            Compra</span></a></li>
+                <li><a href="#"><span class="material-symbols-outlined">move_up</span><span
+                            class="link-text">Proyectos</span></a></li>
+                <li><a href="#"><span class="material-symbols-outlined">flag</span><span
+                            class="link-text">Reportes</span></a></li>
 
-            <h3>Cuenta</h3>
-            <li><a href="#"><span class="material-symbols-outlined">account_circle</span><span
-                        class="link-text">Perfil</span></a></li>
-            <li><a href="#"><span class="material-symbols-outlined">settings</span><span
-                        class="link-text">Configuración</span></a></li>
-            <li><a href="#"><span class="material-symbols-outlined">logout</span><span class="link-text">Cerrar
-                        Sesión</span></a></li>
-        </ul>
-    </aside>
+                <h3>Cuenta</h3>
+                <li><a href="#"><span class="material-symbols-outlined">account_circle</span><span
+                            class="link-text">Perfil</span></a></li>
+                <li><a href="#"><span class="material-symbols-outlined">settings</span><span
+                            class="link-text">Configuración</span></a></li>
+                <li><a href="#"><span class="material-symbols-outlined">logout</span><span class="link-text">Cerrar
+                            Sesión</span></a></li>
+            </ul>
+        </aside>
 
-    <!-- Header superior -->
-    <header class="topbar" role="banner">
-        <div class="search-container">
-            <input type="search" placeholder="Buscar..." aria-label="Buscar" />
-        </div>
+        <!-- Header superior -->
+        <header class="topbar" role="banner">
+            <div class="search-container">
+                <input type="search" placeholder="Buscar..." aria-label="Buscar" />
+            </div>
 
-        <div class="actions" role="navigation" aria-label="Acciones de usuario">
-            <button class="icon-button" aria-label="Notificaciones">
-                <span class="material-symbols-outlined">notifications</span>
-                <span class="badge" aria-live="polite" aria-atomic="true">3</span>
-            </button>
+            <div class="actions" role="navigation" aria-label="Acciones de usuario">
+                <button class="icon-button" aria-label="Notificaciones">
+                    <span class="material-symbols-outlined">notifications</span>
+                    <span class="badge" aria-live="polite" aria-atomic="true">3</span>
+                </button>
 
-            <div class="profile-menu-container" tabindex="0" aria-haspopup="true" aria-expanded="false"
-                aria-label="Menú de perfil de usuario">
-                <div class="profile-summary">
-                    <img src="https://cdn-icons-png.flaticon.com/512/64/64572.png" alt="Icono de perfil" />
-                    Hola,<span id="nombreUsuario">Usuario</span>
+                <div class="profile-menu-container" tabindex="0" aria-haspopup="true" aria-expanded="false"
+                     aria-label="Menú de perfil de usuario">
+                    <div class="profile-summary">
+                        <img src="https://cdn-icons-png.flaticon.com/512/64/64572.png" alt="Icono de perfil" />
+                        Hola,<span id="nombreUsuario">Usuario</span>
+                    </div>
+
+                    <nav class="profile-dropdown" role="menu" aria-label="Opciones de usuario">
+                        <ul>
+                            <li id="opcionesModal" tabindex="0" role="menuitem">Cambiar contraseña</li>
+                            <li id="opcionesModal" tabindex="0" role="menuitem" class="logout">Salir</li>
+                        </ul>
+                    </nav>
                 </div>
+            </div>
+        </header>
 
-                <nav class="profile-dropdown" role="menu" aria-label="Opciones de usuario">
-                    <ul>
-                        <li id="opcionesModal" tabindex="0" role="menuitem">Cambiar contraseña</li>
-                        <li id="opcionesModal" tabindex="0" role="menuitem" class="logout">Salir</li>
-                    </ul>
-                </nav>
+        <!-- Modal Cambiar Contraseña -->
+        <div id="modalCambiarPass" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+            <div class="modal-content">
+                <div class="modal-header" id="modalTitle">Cambiar Contraseña</div>
+                <form id="formCambiarPass">
+                    <label>Usuario</label>
+                    <input type="text" id="ponerUsuarioNombre" disabled />
+
+                    <label>Contraseña Actual</label>
+                    <input type="password" id="passActual" required />
+
+                    <label>Contraseña Nueva</label>
+                    <input type="password" id="passNueva" required />
+
+                    <label>Confirmar Contraseña</label>
+                    <input type="password" id="passConfirmar" required />
+
+                    <div class="modal-buttons">
+                        <button type="button" id="btnCancelarContra">Cancelar</button>
+                        <button type="submit" id="btnCambiarContra">Cambiar Contraseña</button>
+                    </div>
+                </form>
             </div>
         </div>
-    </header>
 
-    <!-- Modal Cambiar Contraseña -->
-    <div id="modalCambiarPass" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-        <div class="modal-content">
-            <div class="modal-header" id="modalTitle">Cambiar Contraseña</div>
-            <form id="formCambiarPass">
-                <label>Usuario</label>
-                <input type="text" id="ponerUsuarioNombre" disabled />
+        <main class="main-content" role="main">
+            <h1>Listado de Clientes</h1>
+            <table id="tablaClientes" aria-describedby="descripcionTabla">
+                <br>
+                <p style="text-align: center;">Listado de clienets registrados en nuestra base de datos</p>
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Apellido Paterno</th>
+                        <th>Apellido Materno</th>
+                        <th>Nombre</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Se llenará con datos de la BD -->
+                </tbody>
+            </table>
+        </main>
 
-                <label>Contraseña Actual</label>
-                <input type="password" id="passActual" required />
-
-                <label>Contraseña Nueva</label>
-                <input type="password" id="passNueva" required />
-
-                <label>Confirmar Contraseña</label>
-                <input type="password" id="passConfirmar" required />
-
-                <div class="modal-buttons">
-                    <button type="button" id="btnCancelarContra">Cancelar</button>
-                    <button type="submit" id="btnCambiarContra">Cambiar Contraseña</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <main class="main-content" role="main">
-        <h1>Listado de Clientes</h1>
-        <table id="tablaClientes" aria-describedby="descripcionTabla">
-            <br>
-            <p style="text-align: center;">Listado de clienets registrados en nuestra base de datos</p>
-            <thead>
-                <tr>
-                    <th>Código</th>
-                    <th>Apellido Paterno</th>
-                    <th>Apellido Materno</th>
-                    <th>Nombre</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Se llenará con datos de la BD -->
-            </tbody>
-        </table>
-    </main>
-
-    <script>
-        // Funciones para cookies
-        function getCookie(nombre) {
-            const nombreEQ = nombre + "=";
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                let c = cookies[i].trim();
-                if (c.indexOf(nombreEQ) === 0) {
-                    return c.substring(nombreEQ.length, c.length);
+        <script>
+            // Funciones para cookies
+            function getCookie(nombre) {
+                const nombreEQ = nombre + "=";
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    let c = cookies[i].trim();
+                    if (c.indexOf(nombreEQ) === 0) {
+                        return c.substring(nombreEQ.length, c.length);
+                    }
                 }
-            }
-            return null;
-        }
-
-        function setCookie(nombre, valor, dias) {
-            const fecha = new Date();
-            fecha.setTime(fecha.getTime() + (dias * 24 * 60 * 60 * 1000));
-            const expira = "expires=" + fecha.toUTCString();
-            document.cookie = nombre + "=" + encodeURIComponent(valor) + ";" + expira + ";path=/";
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            // Mostrar nombre de usuario
-            let nombre = getCookie("nombreUsuario");
-            const nombreUsuarioSpan = document.getElementById("nombreUsuario");
-            nombreUsuarioSpan.style.fontWeight = "600";
-            nombreUsuarioSpan.style.textTransform = "uppercase";
-
-            if (nombre) {
-                nombreUsuarioSpan.textContent = decodeURIComponent(nombre);
-            } else {
-                nombreUsuarioSpan.textContent = "USUARIO";
+                return null;
             }
 
-            // Mostrar/ocultar menú perfil
-            const profileMenuContainer = document.querySelector(".profile-menu-container");
-            const profileDropdown = document.querySelector(".profile-dropdown");
+            function setCookie(nombre, valor, dias) {
+                const fecha = new Date();
+                fecha.setTime(fecha.getTime() + (dias * 24 * 60 * 60 * 1000));
+                const expira = "expires=" + fecha.toUTCString();
+                document.cookie = nombre + "=" + encodeURIComponent(valor) + ";" + expira + ";path=/";
+            }
 
-            profileMenuContainer.addEventListener("click", () => {
-                const expanded = profileMenuContainer.getAttribute("aria-expanded") === "true";
-                if (expanded) {
-                    profileDropdown.classList.remove("active");
-                    profileMenuContainer.setAttribute("aria-expanded", "false");
+            //Funciones para obtener cookies
+            const nombre = getCookie("nombreUsuario");
+            const token = getCookie("token");
+            const codiUsuario = getCookie("idUsuarioBD");
+
+            document.addEventListener("DOMContentLoaded", () => {
+                // Mostrar nombre de usuario
+                const nombreUsuarioSpan = document.getElementById("nombreUsuario");
+                nombreUsuarioSpan.style.fontWeight = "600";
+                nombreUsuarioSpan.style.textTransform = "uppercase";
+
+                if (nombre) {
+                    nombreUsuarioSpan.textContent = decodeURIComponent(nombre);
                 } else {
-                    profileDropdown.classList.add("active");
-                    profileMenuContainer.setAttribute("aria-expanded", "true");
+                    nombreUsuarioSpan.textContent = "USUARIO";
                 }
-            });
 
-            // Cerrar menú perfil al hacer click fuera
-            document.addEventListener("click", (e) => {
-                if (!profileMenuContainer.contains(e.target)) {
-                    profileDropdown.classList.remove("active");
-                    profileMenuContainer.setAttribute("aria-expanded", "false");
+                // Mostrar/ocultar menú perfil
+                const profileMenuContainer = document.querySelector(".profile-menu-container");
+                const profileDropdown = document.querySelector(".profile-dropdown");
+
+                profileMenuContainer.addEventListener("click", () => {
+                    const expanded = profileMenuContainer.getAttribute("aria-expanded") === "true";
+                    if (expanded) {
+                        profileDropdown.classList.remove("active");
+                        profileMenuContainer.setAttribute("aria-expanded", "false");
+                    } else {
+                        profileDropdown.classList.add("active");
+                        profileMenuContainer.setAttribute("aria-expanded", "true");
+                    }
+                });
+
+                // Cerrar menú perfil al hacer click fuera
+                document.addEventListener("click", (e) => {
+                    if (!profileMenuContainer.contains(e.target)) {
+                        profileDropdown.classList.remove("active");
+                        profileMenuContainer.setAttribute("aria-expanded", "false");
+                    }
+                });
+
+                // Manejo opciones menú perfil
+                const logoutBtn = document.querySelector(".profile-dropdown .logout");
+                logoutBtn.addEventListener("click", () => {
+                    cerrarSesionYVolver();
+                });
+
+                //Validar token antes de mostrar todo
+                if (!token) {
+                    alert("No estás autenticado, ¡Inicia Sesión!");
+                    window.location.href = "indexAutenticarKevin.html";
+                    return;
                 }
-            });
 
-            // Manejo opciones menú perfil
-            const logoutBtn = document.querySelector(".profile-dropdown .logout");
-            logoutBtn.addEventListener("click", () => {
-                setCookie("token", "", -1);
-                setCookie("nombreUsuario", "", -1);
-                window.location.href = "indexAutenticarKevin.html";
-            });
+                //===================================================================================================================
+                const modal = document.getElementById('modalCambiarPass');
+                const btnCambiarPassMenu = document.getElementById("opcionesModal");
+                const nombreMiUsuarioSpan = document.getElementById('nombreUsuario');
+                const inputUsuarioNombre = document.getElementById('ponerUsuarioNombre');
+                const formCambiarContra = document.getElementById('formCambiarPass');
+                const btnCancelarContra = document.getElementById('btnCancelarContra');
 
-            //Validar token antes de mostrar todo
-            let token = getCookie("token");
-            if (!token) {
-                alert("No estás autenticado, ¡Inicia Sesión!");
-                window.location.href = "indexAutenticarKevin.html";
-                return;
-            }
+                // Abrir modal al hacer click en "Cambiar Contraseña" del menú y ASIGNAR USUARIO
+                btnCambiarPassMenu.addEventListener('click', () => {
+                    inputUsuarioNombre.value = nombreMiUsuarioSpan.textContent;
+                    modal.style.display = 'block';
+                });
 
-            //===================================================================================================================
-            const modal = document.getElementById('modalCambiarPass');
-            const btnCambiarPassMenu = document.getElementById("opcionesModal");
-            const nombreMiUsuarioSpan = document.getElementById('nombreUsuario');
-            const inputUsuarioNombre = document.getElementById('ponerUsuarioNombre');
-            const formCambiarContra = document.getElementById('formCambiarPass');
-            const btnCancelarContra = document.getElementById('btnCancelarContra');
-
-            // Abrir modal al hacer click en "Cambiar Contraseña" del menú y ASIGNAR USUARIO
-            btnCambiarPassMenu.addEventListener('click', () => {
-                inputUsuarioNombre.value = nombreMiUsuarioSpan.textContent;
-                modal.style.display = 'block';
-            });
-
-            // Cerrar modal con cancelar o click fuera modal
-            btnCancelarContra.addEventListener('click', () => {
-                modal.style.display = 'none';
-                formCambiarContra.reset();
-            });
-
-            window.addEventListener('click', (e) => {
-                if (e.target === modal) {
+                // Cerrar modal con cancelar o click fuera modal
+                btnCancelarContra.addEventListener('click', () => {
                     modal.style.display = 'none';
                     formCambiarContra.reset();
-                }
-            });
-
-            // Función de cerrar sesión
-            function cerrarSesionYVolver() {
-                setCookie("token", "", -1);
-                setCookie("nombreUsuario", "", -1);
-                setCookie("idUsuarioBD", "", -1);
-                window.location.href = "indexAutenticarKevin.html";
-            }
-
-            //Obtener token y codigo de Usuario
-            const obtToken = getCookie("token");
-            const obtCodigo = getCookie("idUsuarioBD");
-            console.log("TOKEN: " + obtToken);
-            console.log("CODIGO: " + obtCodigo);
-
-            formCambiarContra.addEventListener('submit', async (e) => {
-                e.preventDefault();
-
-                const passActual = document.getElementById('passActual').value.trim();
-                const passNueva = document.getElementById('passNueva').value.trim();
-                const passConfirmar = document.getElementById('passConfirmar').value.trim();
-
-                const btnCambioContra = document.getElementById('btnCambiarContra');
-                const btnCancelContra = document.getElementById('btnCancelarContra');
-
-                if (passNueva !== passConfirmar) {
-                    alert('La nueva contraseña y la confirmación no coinciden.');
-                    return;
-                }
-
-                if (passNueva === passActual) {
-                    alert('La nueva contraseña no puede ser igual a su contraseña actual');
-                    return;
-                }
-
-                try {
-                    const misParametros = new URLSearchParams({
-                        id: obtCodigo,
-                        actual: passActual,
-                        nueva: passNueva
-                    });
-
-                    const resultado = await fetch(`cambiarContraKevin?token=${obtToken}&${misParametros.toString()}`, {
-                        method: "POST"
-                    });
-
-                    const result = await resultado.json();
-
-                    if (result.resultado === "ok") {
-                        btnCambioContra.disabled = true;
-                        btnCancelContra.disabled = true;
-                        btnCambioContra.textContent = 'Procesando...';
-
-                        setTimeout(() => {
-                            alert('Contraseña cambiada. Por favor, inicia sesión de nuevo.');
-                            cerrarSesionYVolver();
-                        }, 2000);
-                    } else {
-                        alert("Contraseña actual incorrecta");
-                    }
-                } catch (error) {
-                    console.error("Error al procesar la solicitud:", error);
-                    alert("Hubo un error al cambiar la contraseña.");
-                }
-            });
-
-            //===================================================================================================================
-
-            //LLamada para clientes
-            fetch("clientes?token=" + encodeURIComponent(token))
-                .then(response => {
-                    if (!response.ok) throw new Error("Error al obtener los clientes");
-                    return response.json();
-                })
-                .then(data => {
-                    const tbody = document.querySelector("#tablaClientes tbody");
-                    tbody.innerHTML = "";
-                    data.forEach(cliente => {
-                        const fila = document.createElement("tr");
-                        fila.innerHTML = `
-                            <td>${cliente.codiClie}</td>
-                            <td>${cliente.appaClie}</td>
-                            <td>${cliente.apmaClie}</td>
-                            <td>${cliente.nombClie}</td>
-                        `;
-                        tbody.appendChild(fila);
-                    });
-                })
-                .catch(error => {
-                    console.error("Error al cargar clientes:", error);
                 });
-        });
-    </script>
-</body>
+
+                window.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.style.display = 'none';
+                        formCambiarContra.reset();
+                    }
+                });
+
+                // Función de cerrar sesión
+                function cerrarSesionYVolver() {
+                    setCookie("nombreUsuario", "", -1);
+                    setCookie("idUsuarioBD", "", -1);
+                    setCookie("token", "", -1);
+                    window.location.href = "indexAutenticarKevin.html";
+                }
+
+                //Función para cambiar contra
+                formCambiarContra.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+
+                    const passActual = document.getElementById('passActual').value.trim();
+                    const passNueva = document.getElementById('passNueva').value.trim();
+                    const passConfirmar = document.getElementById('passConfirmar').value.trim();
+
+                    const btnCambioContra = document.getElementById('btnCambiarContra');
+                    const btnCancelContra = document.getElementById('btnCancelarContra');
+
+                    if (passNueva !== passConfirmar) {
+                        alert('La nueva contraseña y la confirmación no coinciden.');
+                        return;
+                    }
+
+                    if (passNueva === passActual) {
+                        alert('La nueva contraseña no puede ser igual a su contraseña actual');
+                        return;
+                    }
+
+                    try {
+                        const misParametros = new URLSearchParams({
+                            id: codiUsuario,
+                            actual: passActual,
+                            nueva: passNueva
+                        });
+
+                        const resultado = await fetch(`cambiarContraKevin?token=${token}&${misParametros.toString()}`, {
+                            method: "POST"
+                        });
+
+                        const result = await resultado.json();
+
+                        if (result.resultado === "ok") {
+                            btnCambioContra.disabled = true;
+                            btnCancelContra.disabled = true;
+                            btnCambioContra.textContent = 'Procesando...';
+
+                            setTimeout(() => {
+                                alert('Contraseña cambiada. Por favor, inicia sesión de nuevo.');
+                                cerrarSesionYVolver();
+                            }, 2000);
+                        } else {
+                            alert("Contraseña actual incorrecta");
+                        }
+                    } catch (error) {
+                        console.error("Error al procesar la solicitud:", error);
+                        alert("Hubo un error al cambiar la contraseña.");
+                    }
+                });
+
+                //===================================================================================================================
+
+                //LLamada para clientes
+                fetch("listarClientes?token=" + encodeURIComponent(token))
+                        .then(response => {
+                            if (!response.ok)
+                                throw new Error("Error al obtener los clientes");
+                            return response.json();
+                        })
+                        .then(data => {
+                            const tbody = document.querySelector("#tablaClientes tbody");
+                            tbody.innerHTML = "";
+                            data.forEach(cliente => {
+                                const fila = document.createElement("tr");
+                                fila.innerHTML = `
+                                <td>${cliente.codiClie}</td>
+                                <td>${cliente.appaClie}</td>
+                                <td>${cliente.apmaClie}</td>
+                                <td>${cliente.nombClie}</td>
+                            `;
+                                tbody.appendChild(fila);
+                            });
+                        })
+                        .catch(error => {
+                            console.error("Error al cargar clientes:", error);
+                        });
+            });
+        </script>
+    </body>
 
 </html>

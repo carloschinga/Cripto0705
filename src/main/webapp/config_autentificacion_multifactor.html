@@ -19,7 +19,6 @@
 
         <div id="perfilMenu" role="menu" aria-label="Opciones de usuario">
             <ul>
-                <li class="menuItem" role="menuItem" tabindex="0">Cambiar Contraseña</li>
                 <li class="menuItem" role="menuItem" tabindex="0" id="btnSalir">Salir</li>
             </ul>
         </div>
@@ -46,8 +45,10 @@
             </p>
 
             <div class="qr-container">
-                <!--<img src="img_kevin/Imagen_QR.png" />-->
-                <a href="">Mostrar código QR</a>
+                <!--Al hacer click se debe de mostrar el codigoQR-->
+                <img id="codigoQR" alt="Código QR para Gooogle Authenticator" />
+                <!--<a href="">Mostrar código QR</a>-->
+                <button id="btnMostrarQR">Mostrar código QR</button>
             </div>
         </div>
 
@@ -76,29 +77,39 @@
     </div>
 
     <script>
-        //Función para obtner cookis
-        function getCookie(nombre) {
-            const nombreEQ = nombre + "=";
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                let c = cookies[i].trim();
-                if (c.indexOf(nombreEQ) === 0) {
-                    return c.substring(nombreEQ.length, c.length);
-                }
+        //Función para obtner
+        function getCookie(name) {
+            const nameEQ = name + "=";
+            const ca = document.cookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i].trim();
+                if (c.indexOf(nameEQ) === 0)
+                    return decodeURIComponent(c.substring(nameEQ.length));
             }
             return null;
         }
-
-        function setCookie(nombre, valor, dias) {
-            const fecha = new Date();
-            fecha.setTime(fecha.getTime() + (dias * 24 * 60 * 60 * 1000));
-            const expira = "expires=" + fecha.toUTCString();
-            document.cookie = nombre + "=" + encodeURIComponent(valor) + ";" + expira + ";path=/";
+        function setCookie(name, value, days) {
+            const d = new Date();
+            d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+            document.cookie = name + "=" + encodeURIComponent(value) + ";expires=" + d.toUTCString() + ";path=/";
         }
 
+        // Función de cerra sesión
+        function cerrarSesionYVolver() {
+            setCookie("token", "", -1);
+            setCookie("nombreUsuario", "", -1);
+            setCookie("idUsuarioBD", "", -1);
+            window.location.href = "indexAutenticarKevin.html";
+        }
+
+        //Obtener token, nombre
+        let token = getCookie("token");
+        let nombre = getCookie("nombreUsuario");
+        let codiUsuario = getCookie("idUsuarioBD");
+
+        //Funciones para mostrar y manejar perfil
         document.addEventListener("DOMContentLoaded", () => {
             //Mostrar nombre de usuario en la barra superior
-            let nombre = getCookie("nombreUsuario");
             const nombreUsuarioSpan = document.getElementById("nombreUsuario");
             nombreUsuarioSpan.style.marginLeft = "2px";
             nombreUsuarioSpan.style.fontWeight = "bold";
@@ -132,13 +143,6 @@
                 }
             });
 
-            // Función de cerra sesión
-            function cerrarSesionYVolver() {
-                setCookie("token", "", -1);
-                setCookie("nombreUsuario", "", -1);
-                window.location.href = "indexAutenticarKevin.html";
-            }
-
             // Utiliza función y cierras segun elección
             document.getElementById("btnSalir").addEventListener("click", cerrarSesionYVolver);
             document.getElementById("btnRegresarIndex").addEventListener("click", (e) => {
@@ -146,49 +150,114 @@
                 cerrarSesionYVolver();
             });
 
-            const menuItems = perfMenu.querySelectorAll(".menuItem");
-            menuItems.forEach(item => {
-                if (item.id !== "btnSalir") {
-                    item.addEventListener("click", () => {
-                        alert(`Has seleccionado: ${item.textContent}`);
-                        perfMenu.style.display = "none";
-                    });
-                }
-            });
-
             // No ejecutar nada si no se ha logueado
-            let token = getCookie("token");
             if (!token) {
                 alert("No estás autenticado, ¡Inicia Sesión!");
                 window.location.href = "indexAutenticarKevin.html";
                 return;
             }
-
         });
 
-
-        // Habilitar botón cuando ambos códigos estén completos y válidos
+        //validar DOM
+        const btnMostrarQR = document.getElementById('btnMostrarQR');
+        const imgQR = document.getElementById('codigoQR');
         const codigo1Input = document.getElementById('codigo1');
         const codigo2Input = document.getElementById('codigo2');
         const btnContinuar = document.getElementById('btnContinuar');
 
-        function validarInputs() {
-            const cod1Valido = /^\d{6}$/.test(codigo1Input.value);
-            const cod2Valido = /^\d{6}$/.test(codigo2Input.value);
+        //Mostrar QR al hacer click
+        btnMostrarQR.addEventListener('click', async () => {
+            if (!token || !codiUsuario) {
+                alert("Sesión inválida, por favor inicia sesión nuevamente.");
+                window.location.href = "indexAutenticarKevin.html";
+                return;
+            }
 
-            btnContinuar.disabled = !(cod1Valido && cod2Valido);
+            try {
+                //Mostrar la imagen QR como blob
+                const response = await fetch(`mostrarQR?token=${encodeURIComponent(token)}&user=${encodeURIComponent(codiUsuario)}`);
+
+                if (!response.ok) {
+                    // Intentar leer JSON con error del servidor
+                    let errMsg = "Error al obtener el código QR.";
+                    try {
+                        const errorData = await response.json();
+                        if (errorData && errorData.mensaje)
+                            errMsg = errorData.mensaje;
+                    } catch {
+                        // no se pudo parsear json
+                    }
+                    alert(errMsg);
+                    return;
+                }
+
+                // La respuesta es una imagen PBG (blob)
+                const blob = await response.blob();
+                const url = URL.createObjectURL(blob);
+                imgQR.src = url;
+                imgQR.classList.add("show"); //Muestra el QR
+
+                //Oculta el botón después de hacer click
+                btnMostrarQR.classList.add("hidden");
+                console.log("QR mostrado:", url);
+
+            } catch (error) {
+                alert("No se pudo cargar el código QR.");
+                console.error(error);
+            }
+        });
+
+        //Validar inputs y habilitar botón continuar
+        function validarInputs() {
+            const val1 = /^\d{6}$/.test(codigo1Input.value);
+            const val2 = /^\d{6}$/.test(codigo2Input.value);
+            btnContinuar.disabled = !(val1 && val2);
         }
 
         codigo1Input.addEventListener('input', validarInputs);
         codigo2Input.addEventListener('input', validarInputs);
 
-        // Aquí podrías agregar el evento para cuando se haga click en continuar
-        btnContinuar.addEventListener('click', () => {
-            alert(`Verificando códigos:\nCódigo 1: ${codigo1Input.value}\nCódigo 2: ${codigo2Input.value}`);
+        // Enviar códigos para verificar MFA inicial
+        btnContinuar.addEventListener('click', async () => {
+            const codigo1 = codigo1Input.value.trim();
+            const codigo2 = codigo2Input.value.trim();
 
-            window.location.href = "segundo_paso_autenticacion.html";
-            // Aquí tu lógica para validar códigos en backend
+            if (!token || !codiUsuario) {
+                alert("Sesión inválida, inicia sesión.");
+                window.location.href = "indexAutenticarKevin.html";
+                return;
+            }
+
+            try {
+                const formData = new URLSearchParams();
+                formData.append("token", token);
+                formData.append("user", codiUsuario);
+                formData.append("codigo1", codigo1);
+                formData.append("codigo2", codigo2);
+
+                const res = await fetch('verificaMFAInicial', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                });
+
+                const data = await res.json();
+
+                if (data.resultado === "ok") {
+                    alert("MFA configurado correctamente.");
+                    window.location.href = "segundo_paso_autenticacion.html";
+                } else {
+                    alert(data.mensaje || "Error al configurar MFA.");
+                }
+            } catch (error) {
+                alert("Error al conectar con el servidor.");
+                console.error(error);
+            }
         });
+
+
     </script>
 </body>
 
