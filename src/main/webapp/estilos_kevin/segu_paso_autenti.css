@@ -178,6 +178,92 @@ strong {
     background-color: #ffa1a1;
 }
 
+/* Estilos para el modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: none; /* oculto por defecto */
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modal {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 25px 30px 40px 30px;
+    width: 320px;
+    max-width: 90vw;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    position: relative;
+}
+
+.modal-circle {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 36px;
+    margin: -60px auto 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.modal-success {
+    background-color: #28a745; /* verde */
+}
+
+.modal-error {
+    background-color: #dc3545; /* rojo */
+}
+
+.modal-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.modal-message {
+    font-size: 14px;
+    color: #666666;
+    margin-bottom: 25px;
+}
+
+.modal-button {
+    display: inline-block;
+    padding: 10px 30px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease;
+    color: white;
+}
+
+.btn-success {
+    background-color: #28a745;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+.btn-error {
+    background-color: #dc3545;
+}
+
+.btn-error:hover {
+    background-color: #c82333;
+}
+
 /* Responsive para móvil */
 @media (max-width: 480px) {
     .container {

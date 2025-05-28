@@ -42,6 +42,17 @@
 
         </div>
 
+        <!-- Modal de respuestas -->
+        <div id="modalOverlay" class="modal-overlay" role="dialog" aria-modal="true"
+             aria-describedby="modalDesc">
+            <div class="modal" id="modal">
+                <div class="modal-circle" id="modalIcon">✓</div>
+                <h2 class="modal-title" id="modalTitle">ÉXITO</h2>
+                <p class="modal-message" id="modalDesc">Este es el mensaje de éxito.</p>
+                <button class="modal-button btn-success" id="modalBtn">CONTINUE</button>
+            </div>
+        </div>
+
         <script>
             //Funciones para cookies
             function getCookie(name) {
@@ -67,6 +78,40 @@
                 setCookie("nombreUsuario", "", -1);
                 setCookie("idUsuarioBD", "", -1);
                 window.location.href = "indexAutenticarKevin.html";
+            }
+
+            // Función para mostrar los mensajes de los modals
+            function showModal(type, message, btnText, btnCallback) {
+                const modalOverlay = document.getElementById('modalOverlay');
+                const modalIcon = document.getElementById('modalIcon');
+                const modalTitle = document.getElementById('modalTitle');
+                const modalDesc = document.getElementById('modalDesc');
+                const modalBtn = document.getElementById('modalBtn');
+                const modal = document.getElementById('modal');
+
+                if (type === 'success') {
+                    modalIcon.textContent = '✓';
+                    modalIcon.className = 'modal-circle modal-success';
+                    modalTitle.textContent = '¡ÉXITO!';
+                    modalBtn.className = 'modal-button btn-success';
+                } else if (type === 'error') {
+                    modalIcon.textContent = '✗';
+                    modalIcon.className = 'modal-circle modal-error';
+                    modalTitle.textContent = '¡ERROR!';
+                    modalBtn.className = 'modal-button btn-error';
+                }
+
+                modalDesc.textContent = message;
+                modalBtn.textContent = btnText || 'Cerrar';
+
+                modalOverlay.style.display = 'flex';
+
+                modalBtn.onclick = () => {
+                    modalOverlay.style.display = 'none';
+                    if (typeof btnCallback === 'function') {
+                        btnCallback();
+                    }
+                };
             }
 
             //Obtener cookies
@@ -118,8 +163,9 @@
 
                 // No ejecutar nada si no se ha logueado
                 if (!token) {
-                    alert("No estás autenticado, ¡Inicia Sesión!");
-                    window.location.href = "indexAutenticarKevin.html";
+                    //alert("No estás autenticado, ¡Inicia Sesión!");
+                    showModal("error", "No estás autenticado, ¡Inicia Sesión!", "Regresar", cerrarSesionYVolver);
+                    //window.location.href = "indexAutenticarKevin.html";
                     return;
                 }
             });
@@ -139,8 +185,10 @@
             btnContinuar.addEventListener('click', async () => {
                 const codigo = codigoInput.value.trim();
                 if (!token || !codiUsuario) {
-                    alert("Sesión inválida, por favor inicia sesión nuevamente.");
-                    window.location.href = "indexAutenticarKevin.html";
+                    //alert("Sesión inválida, por favor inicia sesión nuevamente.");
+                    showModal("error", "Sesión inválida, por favor inicia sesión nuevamente.", "Regresar", () => {
+                        window.location.href = "indexAutenticarKevin.html";
+                    });
                     return;
                 }
 
@@ -161,13 +209,17 @@
                     const data = await res.json();
 
                     if (data.resultado === "ok") {
-                        alert("Autenticación completa. Bienvenido.");
-                        window.location.href = "principalKevin.html";
+                        //alert("Autenticación completa. Bienvenido.");
+                        showModal("success", "Autenticación completa. Bienvenido.", "Continuar", () => {
+                            window.location.href = "principalKevin.html";
+                        });
                     } else {
-                        alert(data.mensaje || "Código inválido, intenta nuevamente.");
+                        //alert("Código inválido, intenta nuevamente.");
+                        showModal("error", "Código inválido, intenta nuevamente.", "Cerrar");
                     }
                 } catch (error) {
-                    alert("Error al conectar con el servidor.");
+                    //alert("Error al conectar con el servidor.");
+                    showModal("error", "Error al conectar con el servidor.", "Cerrar");
                     console.error(error);
                 }
             });
